@@ -7,13 +7,17 @@ use Classes\Users;
 $users = new Users();
 
 if (isset($_SESSION['user_id'])) {
-    $user_id = $_SESSION['user_id'];
-    $get_orders = $users->user_view_orders($user_id);
+    $user_id = filter_var($_SESSION['user_id'], FILTER_SANITIZE_NUMBER_INT);
+    if ($user_id) {
+        $get_orders = $users->user_view_orders($user_id);
+    }
 }
 
-if (isset($_SESSION['order_token'])) {
-    $order_token = $_SESSION['order_token'];
-    $token_data = $users->token($order_token);
+if (isset($_GET['token'])) {
+    $order_token = filter_var($_GET['token'], FILTER_SANITIZE_SPECIAL_CHARS);
+    if ($order_token) {
+        $token_data = $users->token($order_token);
+    }
 }
 
 if (isset($_POST['add_to_cart'])) {
@@ -107,12 +111,14 @@ if (isset($_POST['buy_from_cart'])) {
 if (isset($_POST['submit_data'])) {
     $product_id = filter_input(INPUT_POST, 'item', FILTER_SANITIZE_NUMBER_INT);
     $user_id = filter_input(INPUT_POST, 'user', FILTER_SANITIZE_NUMBER_INT);
+    $session = filter_input(INPUT_POST, 'session', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
 
-    if ($user_id && $product_id) {
+    if ($user_id && $product_id && $session) {
         $response = array(
             'success' => true,
             'user_id' => $user_id,
+            'session' => $session,
             'product_id' => $product_id
         );
     } else {
@@ -125,22 +131,27 @@ if (isset($_POST['submit_data'])) {
     exit();
 }
 
-// if (isset($_POST['submit_data'])) {
-//     $product_id = filter_input(INPUT_POST, 'item', FILTER_SANITIZE_NUMBER_INT);
-//     $user_id = filter_input(INPUT_POST, 'user', FILTER_SANITIZE_NUMBER_INT);
+if (isset($_POST['submit_rate'])) {
+    $insight = filter_input(INPUT_POST, 'insight', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    $item_rate_data = filter_input(INPUT_POST, 'item_rate_data', FILTER_SANITIZE_NUMBER_INT);
+    $user_id = filter_input(INPUT_POST, 'user_id', FILTER_SANITIZE_NUMBER_INT);
+    $item_id = filter_input(INPUT_POST, 'item_id', FILTER_SANITIZE_NUMBER_INT);
+    $session = filter_input(INPUT_POST, 'session', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
+    $imageFileName = null;
+    if (isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
+        $image = $_FILES['image'];
+        $imageName = time() . '_' . basename($image['name']);
+        $uploadDir = '../uploads/';
+        $uploadFile = $uploadDir . $imageName;
 
-//     if ($user_id && $product_id) {
-//         $response = array(
-//             'success' => true,
-//             'user_id' => $user_id,
-//             'product_id' => $product_id
-//         );
-//     } else {
-//         $response = array(
-//             'success' => false
-//         );
-//     }
-//     echo json_encode($response);
-//     exit();
-// }
+        if (move_uploaded_file($image['tmp_name'], $uploadFile)) {
+            $imageFileName = $imageName;
+        } else {
+            echo "Failed to upload image.";
+        }
+    }
+
+    $rate = $users->rating($insight, $item_rate_data, $user_id, $item_id, $session, $imageFileName);
+    $set = $users->set_zero($session);
+}

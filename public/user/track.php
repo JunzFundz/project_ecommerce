@@ -1,10 +1,8 @@
 <?php
 session_start();
-$_SESSION['order_token'];
-
 require_once('../../database/user.php');
 ?>
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
     @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800&display=swap");
 
@@ -93,14 +91,14 @@ require_once('../../database/user.php');
                         <div class="row g-0">
                             <div class="col-md-6 border-right p-5">
                                 <div class="text-center order-details">
-                                    <div class="d-flex justify-content-center mb-5 flex-column align-items-center"> <span class="check1"><i class="fa fa-check"></i></span><span class="font-weight-bold">Your order is on the process</span><small class="mt-2"><?= $data['tracking_number'] ?></small></div> <button class="btn btn-danger btn-block order-button">View Item</button>
+                                    <div class="d-flex justify-content-center mb-5 flex-column align-items-center"> <span class="check1"><i class="fa fa-check"></i></span><span class="font-weight-bold">Your order is on the process</span></div>
                                 </div>
                             </div>
                             <div class="col-md-6 background-muted">
                                 <div class="p-3 border-bottom">
                                     <div class="d-flex justify-content-between align-items-center"> <span><i class="fa fa-clock-o text-muted"></i> <?= $data['days'] ?> days delivery</span></div>
                                     <div class="mt-3">
-                                        <h6 class="mb-0">Item : <?= $data['variants'] ?></h6> <span class="d-block mb-0">Includes: Sketch, PSD, PNG, SVG, AI </span>
+                                        <h6 class="mb-0">Item : <?= $data['variants'] ?></h6> 
                                         <div class="d-flex flex-column mt-3"> </div>
                                     </div>
                                 </div>
@@ -117,7 +115,7 @@ require_once('../../database/user.php');
                                         <div class="p-3 d-flex justify-content-center align-items-center"> <span>Subtotal</span> </div>
                                     </div>
                                     <div class="col-md-6">
-                                        <div class="p-3 d-flex justify-content-center align-items-center"> <span> <?= $data['sub_total'] ?></span> </div>
+                                        <div class="p-3 d-flex justify-content-center align-items-center"> <span> <?= htmlspecialchars(number_format($data['sub_total'], 2)) ?></span> </div>
                                     </div>
                                 </div>
                                 <div class="row g-0 border-bottom">
@@ -125,7 +123,7 @@ require_once('../../database/user.php');
                                         <div class="p-3 d-flex justify-content-center align-items-center"> <span>Shipping fees</span> </div>
                                     </div>
                                     <div class="col-md-6">
-                                        <div class="p-3 d-flex justify-content-center align-items-center"> <span><?= $data['ship_fee'] ?></span> </div>
+                                        <div class="p-3 d-flex justify-content-center align-items-center"> <span><?= htmlspecialchars(number_format($data['ship_fee'], 2)) ?></span> </div>
                                     </div>
                                 </div>
                                 <div class="row g-0">
@@ -133,12 +131,11 @@ require_once('../../database/user.php');
                                         <div class="p-3 d-flex justify-content-center align-items-center"> <span class="font-weight-bold">Total</span> </div>
                                     </div>
                                     <div class="col-md-6">
-                                        <div class="p-3 d-flex justify-content-center align-items-center"> <span class="font-weight-bold"><span><?= $data['sub_total'] + $data['ship_fee'] ?></span> </div>
+                                        <div class="p-3 d-flex justify-content-center align-items-center"> <span class="font-weight-bold"><span><?= htmlspecialchars(number_format($data['sub_total'] + $data['ship_fee'], 2)) ?></span> </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div> </div>
                     </div>
                 </div>
             </div>
@@ -162,14 +159,14 @@ require_once('../../database/user.php');
                         <div class="row g-0">
                             <div class="col-md-6 border-right p-5">
                                 <div class="text-center order-details">
-                                    <div class="d-flex justify-content-center mb-5 flex-column align-items-center"> <span class="check1"><i class="fa fa-check"></i></span><span class="font-weight-bold">Your order is on the process</span><small class="mt-2"><?= $data['tracking_number'] ?></small></div> <button class="btn btn-danger btn-block order-button">View Item</button>
+                                    <div class="d-flex justify-content-center mb-5 flex-column align-items-center"> <span class="check1"><i class="fa fa-check"></i></span><span class="font-weight-bold">Your order is accepted the seller is now preparing your order</span><small class="mt-2"></small></div> 
                                 </div>
                             </div>
                             <div class="col-md-6 background-muted">
                                 <div class="p-3 border-bottom">
                                     <div class="d-flex justify-content-between align-items-center"> <span><i class="fa fa-clock-o text-muted"></i> <?= $data['days'] ?> days delivery</span></div>
                                     <div class="mt-3">
-                                        <h6 class="mb-0">Item : <?= $data['variants'] ?></h6> <span class="d-block mb-0">Includes: Sketch, PSD, PNG, SVG, AI </span>
+                                        <h6 class="mb-0">Item : <?= $data['variants'] ?></h6> 
                                         <div class="d-flex flex-column mt-3"> </div>
                                     </div>
                                 </div>
@@ -186,7 +183,7 @@ require_once('../../database/user.php');
                                         <div class="p-3 d-flex justify-content-center align-items-center"> <span>Subtotal</span> </div>
                                     </div>
                                     <div class="col-md-6">
-                                        <div class="p-3 d-flex justify-content-center align-items-center"> <span> <?= $data['sub_total'] ?></span> </div>
+                                        <div class="p-3 d-flex justify-content-center align-items-center"> <span> <?= htmlspecialchars(number_format($data['sub_total'], 2)) ?></span> </div>
                                     </div>
                                 </div>
                                 <div class="row g-0 border-bottom">
@@ -194,7 +191,7 @@ require_once('../../database/user.php');
                                         <div class="p-3 d-flex justify-content-center align-items-center"> <span>Shipping fees</span> </div>
                                     </div>
                                     <div class="col-md-6">
-                                        <div class="p-3 d-flex justify-content-center align-items-center"> <span><?= $data['ship_fee'] ?></span> </div>
+                                        <div class="p-3 d-flex justify-content-center align-items-center"> <span><?= htmlspecialchars(number_format($data['ship_fee'], 2)) ?></span> </div>
                                     </div>
                                 </div>
                                 <div class="row g-0">
@@ -202,18 +199,17 @@ require_once('../../database/user.php');
                                         <div class="p-3 d-flex justify-content-center align-items-center"> <span class="font-weight-bold">Total</span> </div>
                                     </div>
                                     <div class="col-md-6">
-                                        <div class="p-3 d-flex justify-content-center align-items-center"> <span class="font-weight-bold"><span><?= $data['sub_total'] + $data['ship_fee'] ?></span> </div>
+                                        <div class="p-3 d-flex justify-content-center align-items-center"> <span class="font-weight-bold"><span><?= htmlspecialchars(number_format($data['sub_total'] + $data['ship_fee'], 2)) ?></span> </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div> </div>
                     </div>
                 </div>
             </div>
         </div>
 
-    <?php } else { ?>
+    <?php  } elseif ($data['order_status'] == 3) { ?>
 
         <div class="container mt-4 mb-4">
             <div class="row d-flex cart align-items-center justify-content-center">
@@ -231,14 +227,14 @@ require_once('../../database/user.php');
                         <div class="row g-0">
                             <div class="col-md-6 border-right p-5">
                                 <div class="text-center order-details">
-                                    <div class="d-flex justify-content-center mb-5 flex-column align-items-center"> <span class="check1"><i class="fa fa-check"></i></span><span class="font-weight-bold">Your order is on the process</span><small class="mt-2"><?= $data['tracking_number'] ?></small></div> <button class="btn btn-danger btn-block order-button">View Item</button>
+                                    <div class="d-flex justify-content-center mb-5 flex-column align-items-center"> <span class="check1"><i class="fa fa-check"></i></span><span class="font-weight-bold">Your order is handed to logistics</span><small class="mt-2"><?= $data['tracking_number'] ?></small></div> 
                                 </div>
                             </div>
                             <div class="col-md-6 background-muted">
                                 <div class="p-3 border-bottom">
                                     <div class="d-flex justify-content-between align-items-center"> <span><i class="fa fa-clock-o text-muted"></i> <?= $data['days'] ?> days delivery</span></div>
                                     <div class="mt-3">
-                                        <h6 class="mb-0">Item : <?= $data['variants'] ?></h6> <span class="d-block mb-0">Includes: Sketch, PSD, PNG, SVG, AI </span>
+                                        <h6 class="mb-0">Item : <?= $data['variants'] ?></h6> 
                                         <div class="d-flex flex-column mt-3"> </div>
                                     </div>
                                 </div>
@@ -255,7 +251,7 @@ require_once('../../database/user.php');
                                         <div class="p-3 d-flex justify-content-center align-items-center"> <span>Subtotal</span> </div>
                                     </div>
                                     <div class="col-md-6">
-                                        <div class="p-3 d-flex justify-content-center align-items-center"> <span> <?= $data['sub_total'] ?></span> </div>
+                                        <div class="p-3 d-flex justify-content-center align-items-center"> <span> <?= htmlspecialchars(number_format($data['sub_total'], 2)) ?></span> </div>
                                     </div>
                                 </div>
                                 <div class="row g-0 border-bottom">
@@ -263,7 +259,7 @@ require_once('../../database/user.php');
                                         <div class="p-3 d-flex justify-content-center align-items-center"> <span>Shipping fees</span> </div>
                                     </div>
                                     <div class="col-md-6">
-                                        <div class="p-3 d-flex justify-content-center align-items-center"> <span><?= $data['ship_fee'] ?></span> </div>
+                                        <div class="p-3 d-flex justify-content-center align-items-center"> <span><?= htmlspecialchars(number_format($data['ship_fee'], 2)) ?></span> </div>
                                     </div>
                                 </div>
                                 <div class="row g-0">
@@ -271,7 +267,144 @@ require_once('../../database/user.php');
                                         <div class="p-3 d-flex justify-content-center align-items-center"> <span class="font-weight-bold">Total</span> </div>
                                     </div>
                                     <div class="col-md-6">
-                                        <div class="p-3 d-flex justify-content-center align-items-center"> <span class="font-weight-bold"><span><?= $data['sub_total'] + $data['ship_fee'] ?></span> </div>
+                                        <div class="p-3 d-flex justify-content-center align-items-center"> <span class="font-weight-bold"><span><?= htmlspecialchars(number_format($data['sub_total'] + $data['ship_fee'], 2)) ?></span> </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    <?php } elseif ($data['order_status'] == 4) { ?>
+
+        <div class="container mt-4 mb-4">
+            <div class="row d-flex cart align-items-center justify-content-center">
+                <div class="col-md-10">
+                    <div class="card">
+                        <div class="d-flex justify-content-center border-bottom">
+                            <div class="p-3">
+                                <div class="progresses">
+                                    <div class="steps"> <span><i class="fa fa-check"></i></span> </div><span class="line"></span>
+                                    <div class="steps"> <span></span> <i class="fa fa-check"></i></div><span class="line"></span>
+                                    <div class="steps"><span class="font-weight-bold"></span></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row g-0">
+                            <div class="col-md-6 border-right p-5">
+                                <div class="text-center order-details">
+                                    <div class="d-flex justify-content-center mb-5 flex-column align-items-center"> <span class="check1"><i class="fa fa-check"></i></span><span class="font-weight-bold">Your order is on the way</span><small class="mt-2"><?= $data['tracking_number'] ?></small></div> 
+                                </div>
+                            </div>
+                            <div class="col-md-6 background-muted">
+                                <div class="p-3 border-bottom">
+                                    <div class="d-flex justify-content-between align-items-center"> <span><i class="fa fa-clock-o text-muted"></i> <?= $data['days'] ?> days delivery</span></div>
+                                    <div class="mt-3">
+                                        <h6 class="mb-0">Item : <?= $data['variants'] ?></h6> 
+                                        <div class="d-flex flex-column mt-3"> </div>
+                                    </div>
+                                </div>
+                                <div class="row g-0 border-bottom">
+                                    <div class="col-md-6 border-right">
+                                        <div class="p-3 d-flex justify-content-center align-items-center"><span class="font-weight-bold">Summary</span> </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="p-3 d-flex justify-content-center align-items-center"> <span>Php</span> </div>
+                                    </div>
+                                </div>
+                                <div class="row g-0 border-bottom">
+                                    <div class="col-md-6">
+                                        <div class="p-3 d-flex justify-content-center align-items-center"> <span>Subtotal</span> </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="p-3 d-flex justify-content-center align-items-center"> <span> <?= htmlspecialchars(number_format($data['sub_total'], 2)) ?></span> </div>
+                                    </div>
+                                </div>
+                                <div class="row g-0 border-bottom">
+                                    <div class="col-md-6">
+                                        <div class="p-3 d-flex justify-content-center align-items-center"> <span>Shipping fees</span> </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="p-3 d-flex justify-content-center align-items-center"> <span><?= htmlspecialchars(number_format($data['ship_fee'], 2)) ?></span> </div>
+                                    </div>
+                                </div>
+                                <div class="row g-0">
+                                    <div class="col-md-6">
+                                        <div class="p-3 d-flex justify-content-center align-items-center"> <span class="font-weight-bold">Total</span> </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="p-3 d-flex justify-content-center align-items-center"> <span class="font-weight-bold"><span><?= htmlspecialchars(number_format($data['sub_total'] + $data['ship_fee'], 2)) ?></span> </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    <?php } else { ?>
+
+        <div class="container mt-4 mb-4">
+            <div class="row d-flex cart align-items-center justify-content-center">
+                <div class="col-md-10">
+                    <div class="card">
+                        <div class="d-flex justify-content-center border-bottom">
+                            <div class="p-3">
+                                <div class="progresses">
+                                    <div class="steps"> <span><i class="fa fa-check"></i></span> </div><span class="line"></span>
+                                    <div class="steps"> <span></span> <i class="fa fa-check"></i></div><span class="line"></span>
+                                    <div class="steps"><span class="font-weight-bold"><i class="fa fa-check"></i></span></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row g-0">
+                            <div class="col-md-6 border-right p-5">
+                                <div class="text-center order-details">
+                                    <div class="d-flex justify-content-center mb-5 flex-column align-items-center"> <span class="check1"><i class="fa fa-check"></i></span><span class="font-weight-bold">Your order is completed</span><small class="mt-2"><?= $data['tracking_number'] ?></small></div>
+
+                                </div>
+                            </div>
+                            <div class="col-md-6 background-muted">
+                                <div class="p-3 border-bottom">
+                                    <div class="d-flex justify-content-between align-items-center"> <span><i class="fa fa-clock-o text-muted"></i> <?= $data['days'] ?> days delivery</span></div>
+                                    <div class="mt-3">
+                                        <h6 class="mb-0">Item : <?= $data['variants'] ?></h6>
+                                        <div class="d-flex flex-column mt-3"> </div>
+                                    </div>
+                                </div>
+                                <div class="row g-0 border-bottom">
+                                    <div class="col-md-6 border-right">
+                                        <div class="p-3 d-flex justify-content-center align-items-center"><span class="font-weight-bold">Summary</span> </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="p-3 d-flex justify-content-center align-items-center"> <span>Php</span> </div>
+                                    </div>
+                                </div>
+                                <div class="row g-0 border-bottom">
+                                    <div class="col-md-6">
+                                        <div class="p-3 d-flex justify-content-center align-items-center"> <span>Subtotal</span> </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="p-3 d-flex justify-content-center align-items-center"> <span> <?= htmlspecialchars(number_format($data['sub_total'], 2)) ?></span> </div>
+                                    </div>
+                                </div>
+                                <div class="row g-0 border-bottom">
+                                    <div class="col-md-6">
+                                        <div class="p-3 d-flex justify-content-center align-items-center"> <span>Shipping fees</span> </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="p-3 d-flex justify-content-center align-items-center"> <span><?= htmlspecialchars(number_format($data['ship_fee'], 2)) ?></span> </div>
+                                    </div>
+                                </div>
+                                <div class="row g-0">
+                                    <div class="col-md-6">
+                                        <div class="p-3 d-flex justify-content-center align-items-center"> <span class="font-weight-bold">Total</span> </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="p-3 d-flex justify-content-center align-items-center"> <span class="font-weight-bold"><span><?= htmlspecialchars(number_format($data['sub_total'] + $data['ship_fee'], 2)) ?></span> </div>
                                     </div>
                                 </div>
                             </div>
@@ -284,8 +417,6 @@ require_once('../../database/user.php');
 
 <?php }
 endforeach; ?>
-
-
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>

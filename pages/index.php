@@ -1,198 +1,468 @@
-<!DOCTYPE html>
-<html lang="en">
+<?php
+require_once('../database/user_show_data.php');
+?>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link href="https://cdn.jsdelivr.net/npm/fastbootstrap@2.2.0/dist/css/fastbootstrap.min.css" rel="stylesheet" integrity="sha256-V6lu+OdYNKTKTsVFBuQsyIlDiRWiOmtC8VQ8Lzdm2i4=" crossorigin="anonymous">
-    <link rel="stylesheet" href="index.css">
-    <style>
-        * {
-            font-family: Verdana, Geneva, Tahoma, sans-serif;
+<?php include('header.php') ?>
+
+<style>
+    .slider-three {
+        padding-top: 10px;
+        padding-bottom: 70px;
+    }
+
+    .slider-three .section-title .title {
+        font-size: 44px;
+        line-height: 55px;
+        font-weight: 600;
+        color: var(--black);
+    }
+
+    @media (max-width: 767px) {
+        .slider-three .section-title .title {
+            font-size: 28px;
+            line-height: 32px;
         }
-    </style>
-    <title>Document</title>
-</head>
+    }
 
-<body>
+    .slider-three .section-title .text {
+        color: var(--dark-3);
+        margin-top: 24px;
+    }
 
-    <div class="modal fade" id="exampleModalCenter" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Sign in</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form action="../database/signin.php" method="post">
-                        <div class="mb-3">
-                            <label for="exampleInputEmail1" class="form-label">Mobile</label>
-                            <input type="tel" name="mobile" class="form-control" id="exampleInputNumber1" placeholder="+639" required>
-                            <div id="emailHelp" class="form-text">Please use your own mobile number</div>
-                        </div>
-                        <div class="mb-3 form-check">
-                            <input type="checkbox" class="form-check-input" id="exampleCheck1" checked />
-                            <label class="form-check-label" for="exampleCheck1">Always sign in on this device</label>
-                        </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-subtle" data-bs-dismiss="modal">Cancel</button>
-                    <button type="submit" name="signin" class="btn btn-primary">Register</button>
-                    </form>
-                </div>
+    .slider-three .slider-items-wrapper {
+        position: relative;
+    }
+
+    .slider-three .slider-items-wrapper .tns-nav {
+        width: 100%;
+        z-index: 2;
+        display: flex;
+        justify-content: center;
+        margin-top: 40px;
+    }
+
+    .slider-three .slider-items-wrapper .tns-nav button {
+        width: 10px;
+        height: 10px;
+        border-radius: 50px;
+        background-color: var(--primary);
+        opacity: 0.5;
+        border: 0;
+        margin: 0 5px;
+        -webkit-transition: all 0.4s ease-out 0s;
+        -moz-transition: all 0.4s ease-out 0s;
+        -ms-transition: all 0.4s ease-out 0s;
+        -o-transition: all 0.4s ease-out 0s;
+        transition: all 0.4s ease-out 0s;
+    }
+
+    .slider-three .slider-items-wrapper .tns-nav button.tns-nav-active {
+        width: 20px;
+        opacity: 1;
+        border-radius: 5px;
+    }
+
+    .slider-three .single-items-one {
+        margin-top: 40px;
+    }
+
+    .slider-three .single-items-one img {
+        width: 100%;
+        border-radius: 10px;
+        object-fit: cover;
+        aspect-ratio: 3/2;
+    }
+
+    .single-card {
+        box-shadow: var(--shadow-1);
+        border-radius: 8px;
+        overflow: hidden;
+        margin-top: 30px;
+        -webkit-transition: all 0.3s ease-out 0s;
+        -moz-transition: all 0.3s ease-out 0s;
+        -ms-transition: all 0.3s ease-out 0s;
+        -o-transition: all 0.3s ease-out 0s;
+        transition: all 0.3s ease-out 0s;
+        background: rgba(255, 255, 255, 0.61);
+        border-radius: 16px;
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        backdrop-filter: blur(7.6px);
+        -webkit-backdrop-filter: blur(7.6px);
+        border: 1px solid rgba(255, 255, 255, 0.77);
+    }
+
+    .single-card:hover {
+        box-shadow: var(--shadow-4);
+    }
+
+    .single-card .card-image img {
+        object-fit: contain;
+        aspect-ratio: 3/2;
+        width: 70rem;
+    }
+
+    .single-card .card-content {
+        padding: 16px;
+    }
+
+    .single-card .card-content .card-title {
+        margin-bottom: 0;
+    }
+
+    .single-card .card-content .card-title a {
+        color: var(--black);
+        -webkit-transition: all 0.3s ease-out 0s;
+        -moz-transition: all 0.3s ease-out 0s;
+        -ms-transition: all 0.3s ease-out 0s;
+        -o-transition: all 0.3s ease-out 0s;
+        transition: all 0.3s ease-out 0s;
+    }
+
+    .single-card .card-content .card-title a:hover {
+        color: var(--primary);
+    }
+
+    .single-card .card-content .text {
+        color: var(--dark-3);
+        margin-top: 8px;
+    }
+
+    /* From Uiverse.io by nikk7007 */
+    .button-style {
+        padding: 0.9em 1.7em;
+        background-color: transparent;
+        border-radius: 3em;
+        position: relative;
+        overflow: hidden;
+        cursor: pointer;
+        transition: .5s;
+        font-weight: 400;
+        font-size: 17px;
+        border: 1px solid;
+        font-family: inherit;
+        text-transform: uppercase;
+        color: black;
+        z-index: 1;
+    }
+
+    .button-style::before,
+    .button-style::after {
+        content: '';
+        display: block;
+        width: 50px;
+        height: 50px;
+        transform: translate(-50%, -50%);
+        position: absolute;
+        border-radius: 50%;
+        z-index: -1;
+        background-color: #467326;
+        transition: 1s ease;
+    }
+
+    .button-style::before {
+        top: -1em;
+        left: -1em;
+    }
+
+    .button-style::after {
+        left: calc(100% + 1em);
+        top: calc(100% + 1em);
+    }
+
+    .button-style:hover::before,
+    .button-style:hover::after {
+        height: 410px;
+        width: 410px;
+    }
+
+    .button-style:hover {
+        color: white;
+    }
+
+    .button-style:active {
+        filter: brightness(.8);
+    }
+
+    @import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+    .custom-text-style {
+        font-family: "Poppins", sans-serif;
+        font-weight: 500;
+        font-size: clamp(14px, 2vw, 20px);
+        color: #467326;
+    }
+</style>
+
+<link rel="stylesheet" href="https://cdn.ayroui.com/1.0/css/tiny-slider.css" />
+
+<div class="modal fade" tabindex="-1" id="forgot-pass" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Forgot Password</h5>
+            </div>
+            <div class="modal-body">
+                <form action="../database/signin.php" method="POST">
+                    <div class="mb-3">
+                        <label for="" class="form-label">Email</label>
+                        <input type="email" class="form-control" name="email" />
+                    </div>
+                    <div class="mb-3">
+                        <label for="number" class="form-label">Mobile Number</label>
+                        <input
+                            type="tel"
+                            class="form-control"
+                            name="number"
+                            id="number"
+                            pattern="^[0-9]{11}$"
+                            placeholder="Enter 10-digit mobile number"
+                            maxlength="11"
+                            required />
+                    </div>
+
+
+                    <div class="text-end">
+                        <button type="submit" name="confirm" class="btn btn-primary">Confirm</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
+</div>
 
-    <nav class="navbar navbar-expand-lg bg-light">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#">Logo</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarText">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Products</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Features</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Pricing</a>
-                    </li>
-                </ul>
-                <span class="navbar-text">
-                    <a href="" data-bs-toggle="modal" data-bs-target="#exampleModalCenter">Sign in</a>
-                </span>
+<div class="modal fade" tabindex="-1" id="login" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Signin</h5>
+            </div>
+            <div class="modal-body">
+                <form action="../database/signin.php" method="POST">
+                    <div class="mb-3">
+                        <label for="" class="form-label">Phone</label>
+                        <input type="text" class="form-control" name="mobile" />
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">Password</label>
+                        <input type="password" name="pass" class="form-control" id="exampleInputPassword1" />
+                    </div>
+                    <div class="text-end">
+                        <button type="submit" name="signin" class="btn btn-primary">Signin</button>
+                    </div>
+                </form>
             </div>
         </div>
-    </nav>
-
-    <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="true" style="height: 50vh">
-        <div class="carousel-indicators">
-            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
-            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
-        </div>
-        <div class="carousel-inner" style="height: 50vh;">
-            <div class="carousel-item active">
-                <img src="https://images.pexels.com/photos/26146558/pexels-photo-26146558/free-photo-of-people-hiking-on-dirt-road-under-fog.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" class="d-block w-100" alt="...">
-            </div>
-            <div class="carousel-item">
-                <img src="https://images.pexels.com/photos/28688793/pexels-photo-28688793/free-photo-of-solitary-hiker-on-snow-covered-sand-dunes.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" class="d-block w-100" alt="...">
-            </div>
-            <div class="carousel-item">
-                <img src="https://images.pexels.com/photos/26836559/pexels-photo-26836559/free-photo-of-foamy-wave-crashing-onto-shore.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load" class="d-block w-100" alt="...">
-            </div>
-        </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-        </button>
     </div>
+</div>
 
-    <?php
-    require_once('../database/Connection.php');
-    $stmt1  = $db->query("SELECT * FROM categories");
-    ?>
+<section class="slider-three">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-6">
+                <div class="section-title text-center">
+                    <br>
+                    <p class="text custom-text-style">
+                        Discover Korea! Bring out the best quality directly to You.
+                    </p>
+                    <br>
+                </div>
+            </div>
+        </div>
+        <!-- row -->
 
-    <?php
-    $stmt = $db->query("SELECT * FROM items_data");
-
-    if ($stmt) {
-        $items = [];
-        while ($row = $stmt->fetch_assoc()) {
-            $items[] = $row;
-        }
-    } else {
-        echo "Error: " . $db->error;
-    } ?>
-
-    <div class="vc_row wpb_row vc_inner vc_row-fluid section destinations inner-container">
-        <div class="container">
-            <div class="row">
-                <div class="wpb_column col-sm-12">
-                    <div class="vc_column-inner ">
-                        <div class="wpb_wrapper">
-                            <h4>CATEGORIES</h4>
-
-                            <div class="btn-group mb-4 mt-4">
-                                <?php foreach ($stmt1 as $rows) : ?>
-                                    <button type="button" data-id="<?= $rows['c_id'] ?>" class="btn btn-outline-discovery" style="border-radius: 0;"><?= $rows['cat'] ?></button>
-                                <?php endforeach; ?>
-                            </div>
-
-                            <div class="row hotel image-box listing-style2 datadist">
-                                <?php if (!empty($items)) : ?>
-                                    <?php foreach ($items as $rows) : ?>
-                                        <div class="col-sm-6 col-sms-6 col-md-3">
-                                            <article class="box" style="height: auto; min-height: 219px;">
-                                                <figure>
-                                                    <?php
-                                                    $images = json_decode($rows['img'], true);
-                                                    if (!empty($images) && is_array($images)) {
-                                                        $firstImage = $images[0];
-                                                    ?>
-                                                        <img style="width: 100%;" height="200" src="../uploads/<?= htmlspecialchars($firstImage) ?>" class="attachment-biggallery-thumb size-biggallery-thumb wp-post-image" alt="">
-                                                    <?php } else { ?>
-                                                        <img style="height: 200px; object-fit:contain; aspect-ratio: 3/2" src="uploads/default.jpg" class="card-img-top" alt="default image" />
-                                                    <?php } ?>
-                                                </figure>
-                                                <div class="details">
-                                                    <h4 class="box-title"><a href="#"><?= htmlspecialchars($rows['name'], ENT_QUOTES, 'UTF-8') ?></a></h4>
-                                                    <label class="price-wrapper">
-                                                        <span class="price-per-unit">₱<?= number_format($rows['price'], 2) ?> PHP</span>
-                                                    </label>
-                                                </div>
-                                            </article>
-                                        </div>
-                                    <?php endforeach; ?>
-                                <?php else : ?>
-                                    <p>No products available.</p>
-                                <?php endif; ?>
-                            </div>
-
-                        </div>
+        <div class="slider-items-wrapper">
+            <div class="row slider-items-active">
+                <div class="col-lg-4">
+                    <div class="single-items-one">
+                        <img src="../public/img/l1.JPG" alt="Image" />
+                    </div>
+                    <!-- single-items-one -->
+                </div>
+                <div class="col-lg-4">
+                    <div class="single-items-one">
+                        <img src="../public/img/l2.JPG" alt="Image" />
+                    </div>
+                    <!-- single-items-one -->
+                </div>
+                <div class="col-lg-4">
+                    <div class="single-items-one">
+                        <img src="../public/img/l3.JPG" alt="Image" />
+                    </div>
+                    <!-- single-items-one -->
+                </div>
+                <div class="col-lg-4">
+                    <div class="single-items-one">
+                        <img src="../public/img/l4.JPG" alt="Image" />
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</section>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-        $(document).ready(function() {
-            $('.btn-outline-discovery').on('click', function() {
-                var id = $(this).data('id');
-                console.log(id);
+<h4 class="text-center">Categories</h4>
+<div class="group-buttons justify-content-center cat-style" style="display: flex; flex-wrap: wrap; padding-top: 20px">
+    <div class="">
+        <?php foreach ($cat as $rows) : ?>
+            <a data-id="<?= htmlspecialchars($rows['c_id'], ENT_QUOTES, 'UTF-8') ?>" class="button-style btn-click-on" style="padding: 5px;"><?= htmlspecialchars($rows['cat'], ENT_QUOTES, 'UTF-8') ?></a>
+        <?php endforeach; ?>
+    </div>
+</div>
 
-                $('.btn-outline-discovery').removeClass('btn-discovery');
-                $(this).addClass('btn-discovery');
+<section class="card-area pb-5">
+    <div class="container datahtml">
+        <?php if (!empty($items)) : ?>
+            <div class="row justify-content-center">
+                <?php foreach ($items as $rows) : ?>
+                    <div class="col-lg-3 col-sm-6 card-bg">
+                        <a href="#" data-bs-toggle="modal" data-bs-target="#login" style="color: black; text-decoration: none">
+                            <div class="single-card card-style-one">
+                                <div class="card-image">
+                                    <?php
+                                    $images = json_decode($rows['img'], true);
+                                    $firstImage = !empty($images) && is_array($images) ? htmlspecialchars($images[0], ENT_QUOTES, 'UTF-8') : 'default.jpg';
+                                    ?>
+                                    <img
+                                        src="../uploads/<?= $firstImage ?>"
+                                        alt="Product Image">
+                                </div>
+                                <div class="card-content">
+                                    <h4 class="card-title">
+                                        <a href="javascript:void(0)"><?= htmlspecialchars($rows['name'], ENT_QUOTES, 'UTF-8') ?></a>
+                                    </h4>
+                                    <p class="text">
+                                        &#8369; <?= number_format(htmlspecialchars($rows['price'], ENT_QUOTES, 'UTF-8'), 2) ?>
+                                    </p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        <?php else : ?>
+            <p>No products available.</p>
+        <?php endif; ?>
+    </div>
+</section>
 
-                $.ajax({
-                    url: "category.php",
-                    type: "post",
-                    data: {
-                        'id': id
-                    },
-                    success: function(data) {
-                        $('.datadist').html(data);
-                    }
-                });
+<script src="https://cdn.ayroui.com/1.0/js/tiny-slider.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<script>
+    tns({
+        autoplay: true,
+        autoplayButtonOutput: false,
+        mouseDrag: true,
+        gutter: 0,
+        container: ".slider-items-active",
+        center: false,
+        nav: true,
+        navPosition: "bottom",
+        controls: false,
+        speed: 400,
+        controlsText: [
+            '<i class="lni lni-arrow-left-circle"></i>',
+            '<i class="lni lni-arrow-right-circle"></i>',
+        ],
+        responsive: {
+            0: {
+                items: 1,
+            },
+
+            768: {
+                items: 2,
+            },
+            992: {
+                items: 3,
+            },
+        },
+    });
+
+    $(document).ready(function() {
+        let isScrolling;
+        $(document).scroll(function() {
+            clearTimeout(isScrolling);
+            isScrolling = setTimeout(() => {
+                const $nav = $("#mainNavbar");
+                $nav.toggleClass("scrolled", $(this).scrollTop() > $nav.height());
+            }, 100);
+        });
+
+        $('.btn-click-on').on('click', function(e) {
+            e.preventDefault();
+
+            const id = $(this).data('id');
+            if (!id || isNaN(id)) {
+                console.error('Invalid category ID');
+                return;
+            }
+            console.log(id);
+
+            $('.btn-click-on').removeClass('active');
+            $(this).addClass('btn-discovery');
+
+            $.ajax({
+                url: "category.php",
+                type: "post",
+                data: {
+                    'id': id
+                },
+                success: function(data) {
+                    $('.datahtml').html(data);
+                },
+                error: function(xhr, status, error) {
+                    console.error('An error occurred: ' + status + ' - ' + error);
+                }
             });
         });
 
-        
-    </script>
+        $(".mobile-options").on('click', function() {
+            $(".navbar-container .nav-right").slideToggle('slow');
+        });
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+        $(".search-btn").on('click', function() {
+            $(".main-search").addClass('open');
+            $('.main-search .form-control').animate({
+                'width': '200px',
+            });
+        });
 
-</body>
+        $(".search-close").on('click', function() {
+            $('.main-search .form-control').animate({
+                'width': '0',
+            });
+            setTimeout(function() {
+                $(".main-search").removeClass('open');
+            }, 100);
+        });
+    });
 
-</html>
+    function toggleFullScreen() {
+        var a = $(window).height() - 10;
+
+        if (!document.fullscreenElement &&
+            !document.mozFullScreenElement && !document.webkitFullscreenElement) {
+            if (document.documentElement.requestFullscreen) {
+                document.documentElement.requestFullscreen();
+            } else if (document.documentElement.mozRequestFullScreen) {
+                document.documentElement.mozRequestFullScreen();
+            } else if (document.documentElement.webkitRequestFullscreen) {
+                document.documentElement.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
+            }
+        } else {
+            if (document.cancelFullScreen) {
+                document.cancelFullScreen();
+            } else if (document.mozCancelFullScreen) {
+                document.mozCancelFullScreen();
+            } else if (document.webkitCancelFullScreen) {
+                document.webkitCancelFullScreen();
+            }
+        }
+        $('.full-screen').toggleClass('icon-maximize');
+        $('.full-screen').toggleClass('icon-minimize');
+    }
+</script>
+
+<?php include 'footer.php' ?>

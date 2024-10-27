@@ -27,3 +27,25 @@ if (isset($_GET['item'])) {
 } else {
     exit();
 }
+
+if (isset($_POST['get_ratings_count'])) {
+    $item_id = filter_input(INPUT_POST, 'item_id', FILTER_SANITIZE_NUMBER_INT);
+
+        header('Content-Type: application/json');
+
+        $rating_count = $users->getRatingCountByItemId($item_id);
+
+        if ($rating_count) {
+            echo json_encode([
+                'success' => true,
+                'total_ratings' => $rating_count
+            ]);
+        } else {
+            echo json_encode([
+                'success' => false,
+                'total_ratings' => $rating_count
+            ]);
+        }
+}
+
+

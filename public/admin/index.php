@@ -2,7 +2,7 @@
 
 session_start();
 
-$id = $_SESSION['user_id'];
+// $id = $_SESSION['user_id'];
 require_once('../../database/user_show_data.php');
 ?>
 
@@ -70,7 +70,7 @@ require_once('../../database/user_show_data.php');
             </li>
             <li class="nav-item">
                 <a id="tab-one-two-tab" data-bs-toggle="tab" href="#tab-one-two" role="tab"
-                    aria-controls="tab-one-two" aria-selected="false">ITEMS</a>
+                    aria-controls="tab-one-two" aria-selected="false">ACCEPTED</a>
             </li>
             <li class="nav-item">
                 <a id="tab-one-three-tab" data-bs-toggle="tab" href="#tab-one-three" role="tab"
@@ -78,7 +78,7 @@ require_once('../../database/user_show_data.php');
             </li>
             <li class="nav-item">
                 <a id="tab-one-four-tab" data-bs-toggle="tab" href="#tab-one-four" role="tab"
-                    aria-controls="tab-one-four" aria-selected="false">TAB 04</a>
+                    aria-controls="tab-one-four" aria-selected="false">ITEMS</a>
             </li>
         </ul>
         <div class="tab-content" id="myTabContent">
@@ -87,13 +87,13 @@ require_once('../../database/user_show_data.php');
                 <?php include('purchase.php') ?>
             </div>
             <div class="tab-pane fade" id="tab-one-two" role="tabpanel" aria-labelledby="tab-one-two-tab">
-                <?php include('items.php') ?>
+                <?php include('accepted.php') ?>
             </div>
             <div class="tab-pane fade" id="tab-one-three" role="tabpanel" aria-labelledby="tab-one-three-tab">
-
+                <?php include('transactions.php') ?>
             </div>
             <div class="tab-pane fade" id="tab-one-four" role="tabpanel" aria-labelledby="tab-one-four-tab">
-
+                <?php include('items.php') ?>
             </div>
         </div>
     </div>
@@ -103,6 +103,7 @@ require_once('../../database/user_show_data.php');
 include('admin-footer.php');
 include('load-modals.php');
 ?>
+
 <script src="https://cdn.ayroui.com/1.0/js/tiny-slider.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.bundle.min.js"></script>

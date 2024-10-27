@@ -4,10 +4,11 @@ $_SESSION['user_id'];
 include('../../database/user_cart.php');
 
 ?>
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
     body {
-        background: #ddd;
+        background: rgb(255, 255, 255);
+        background: linear-gradient(56deg, rgba(255, 255, 255, 1) 9%, rgba(57, 207, 64, 1) 100%);
         min-height: 100vh;
         vertical-align: middle;
         display: flex;
@@ -16,177 +17,173 @@ include('../../database/user_cart.php');
         font-weight: bold;
     }
 
-    .title {
-        margin-bottom: 5vh;
+    * {
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
     }
 
     .card {
+        .title {
+            margin-bottom: 5vh;
+        }
+
         margin: auto;
         max-width: 950px;
         width: 90%;
         box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.19);
         border: transparent;
-    }
 
-    @media(max-width:767px) {
-        .card {
-            margin: 3vh auto;
-        }
-    }
-
-    .cart {
-        background-color: #fff;
-        padding: 4vh 5vh;
-        border-bottom-left-radius: 1rem;
-        border-top-left-radius: 1rem;
-    }
-
-    @media(max-width:767px) {
         .cart {
-            padding: 4vh;
-            border-bottom-left-radius: unset;
+            background: rgba(255, 255, 255, 0.61);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(9.3px);
+            -webkit-backdrop-filter: blur(9.3px);
+            border: 1px solid rgba(255, 255, 255, 1);
+            padding: 4vh 5vh;
         }
-    }
 
-    .summary {
-        background-color: #ddd;
-        padding: 4vh;
-        color: rgb(65, 65, 65);
-    }
+        @media(max-width:767px) {
+            .cart {
+                padding: 4vh;
+                border-bottom-left-radius: unset;
+            }
+        }
 
-    @media(max-width:767px) {
         .summary {
-            border-top-right-radius: unset;
+            background-color: #F2F2F0;
+            padding: 4vh;
+            color: rgb(65, 65, 65);
         }
-    }
 
-    .summary .col-2 {
-        padding: 0;
-    }
+        @media(max-width:767px) {
+            .summary {
+                border-top-right-radius: unset;
+            }
+        }
 
-    .summary .col-10 {
-        padding: 0;
-    }
+        .summary .col-2 {
+            padding: 0;
+        }
 
-    .row {
-        margin: 0;
-    }
+        .summary .col-10 {
+            padding: 0;
+        }
 
-    .title b {
-        font-size: 1.5rem;
-    }
+        .row {
+            margin: 0;
+        }
 
-    .main {
-        margin: 0;
-        padding: 2vh 0;
-        width: 100%;
-    }
+        .title b {
+            font-size: 1.5rem;
+        }
 
-    .col-2,
-    .col {
-        padding: 0 1vh;
-    }
+        .main {
+            margin: 0;
+            padding: 2vh 0;
+            width: 100%;
+        }
 
-    a {
-        padding: 0 1vh;
-    }
+        .col-2,
+        .col {
+            padding: 0 1vh;
+        }
 
-    .close {
-        margin-left: auto;
-        font-size: 0.7rem;
-    }
+        a {
+            padding: 0 1vh;
+        }
 
-    img {
-        width: 3.5rem;
-    }
+        .close {
+            margin-left: auto;
+            font-size: 0.7rem;
+        }
 
-    .back-to-shop {
-        margin-top: 4.5rem;
-    }
+        img {
+            width: 3.5rem;
+        }
 
-    h5 {
-        margin-top: 4vh;
-    }
+        .back-to-shop {
+            margin-top: 4.5rem;
+        }
 
-    hr {
-        margin-top: 1.25rem;
-    }
+        h5 {
+            margin-top: 4vh;
+        }
 
-    form {
-        padding: 2vh 0;
-    }
+        hr {
+            margin-top: 1.25rem;
+        }
 
-    select {
-        border: 1px solid rgba(0, 0, 0, 0.137);
-        padding: 1.5vh 1vh;
-        margin-bottom: 4vh;
-        outline: none;
-        width: 100%;
-        background-color: rgb(247, 247, 247);
-    }
+        form {
+            padding: 2vh 0;
+        }
 
-    input {
-        border: 1px solid rgba(0, 0, 0, 0.137);
-        padding: 1vh;
-        margin-bottom: 4vh;
-        outline: none;
-        width: 100%;
-        background-color: rgb(247, 247, 247);
-    }
+        select {
+            border: 1px solid rgba(0, 0, 0, 0.137);
+            padding: 1.5vh 1vh;
+            margin-bottom: 4vh;
+            outline: none;
+            width: 100%;
+            background-color: rgb(247, 247, 247);
+        }
 
-    input:focus::-webkit-input-placeholder {
-        color: transparent;
-    }
+        input {
+            border: 1px solid rgba(0, 0, 0, 0.137);
+            padding: 1vh;
+            outline: none;
+            width: 100%;
+            background-color: rgb(247, 247, 247);
+        }
 
-    .btn {
-        background-color: #000;
-        border-color: #000;
-        color: white;
-        width: 100%;
-        font-size: 0.7rem;
-        margin-top: 4vh;
-        padding: 1vh;
-        border-radius: 0;
-    }
+        input:focus::-webkit-input-placeholder {
+            color: transparent;
+        }
 
-    .btn:focus {
-        box-shadow: none;
-        outline: none;
-        box-shadow: none;
-        color: white;
-        -webkit-box-shadow: none;
-        transition: none;
-    }
+        .btn {
+            background-color: #000;
+            border-color: #000;
+            color: white;
+            width: 100%;
+            font-size: 0.7rem;
+            margin-top: 4vh;
+            padding: 1vh;
+            border-radius: 0;
+        }
 
-    .btn:hover {
-        color: white;
-    }
+        .btn:focus {
+            box-shadow: none;
+            outline: none;
+            box-shadow: none;
+            color: white;
+            -webkit-box-shadow: none;
+            transition: none;
+        }
 
-    a {
-        color: black;
-    }
+        .btn:hover {
+            color: white;
+        }
 
-    a:hover {
-        color: black;
-        text-decoration: none;
-    }
+        a {
+            color: black;
+        }
 
-    #code {
-        background-image: linear-gradient(to left, rgba(255, 255, 255, 0.253), rgba(255, 255, 255, 0.185)), url("https://img.icons8.com/small/16/000000/long-arrow-right.png");
-        background-repeat: no-repeat;
-        background-position-x: 95%;
-        background-position-y: center;
+        a:hover {
+            color: black;
+            text-decoration: none;
+        }
+
+        #code {
+            background-image: linear-gradient(to left, rgba(255, 255, 255, 0.253), rgba(255, 255, 255, 0.185)), url("https://img.icons8.com/small/16/000000/long-arrow-right.png");
+            background-repeat: no-repeat;
+            background-position-x: 95%;
+            background-position-y: center;
+        }
     }
 </style>
 
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<style>
-        * {
-            font-family: Verdana, Geneva, Tahoma, sans-serif;
-        }
-    </style>
-<div class="card">
+
+
+<div class="card ">
     <div class="row">
         <div class="col-md-8 cart">
             <div class="title">

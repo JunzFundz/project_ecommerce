@@ -22,18 +22,18 @@ if (isset($_POST['placed_order_now'])) {
     $price = filter_input(INPUT_POST, 'price', FILTER_SANITIZE_NUMBER_INT);
     $variant = filter_input(INPUT_POST, 'variant', FILTER_SANITIZE_NUMBER_INT);
     $shipping = filter_input(INPUT_POST, 'shipping', FILTER_SANITIZE_NUMBER_INT);
+    $days = filter_input(INPUT_POST, 'days', FILTER_SANITIZE_NUMBER_INT);
 
     $total = floatval($price) * intval($quantity);
     $tracking_number = $payment->generateTrackingNumber();
     $order_token = $payment->generateOrderToken();
 
     try {
-        
-        $placed = $payment->place_all_order($user_id, $product_id, $quantity, $price, $variant, $shipping, $tracking_number, $order_token);
-        $info = $payment->update_info($mobile, $fname, $lname, $house, $address, $zip, $city, $region, $user_id);
 
+        $placed = $payment->place_all_order($user_id, $days, $product_id, $quantity, $price, $variant, $shipping, $tracking_number, $order_token);
+        $info = $payment->update_info($mobile, $fname, $lname, $house, $address, $zip, $city, $region, $user_id);
     } catch (PDOException $e) {
-        die ("Database error: " . $e->getMessage());
+        die("Database error: " . $e->getMessage());
     }
 }
 
@@ -48,6 +48,7 @@ if (isset($_POST['placed_order_all'])) {
     $region = filter_input(INPUT_POST, 'region', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
     $user_id = filter_input(INPUT_POST, 'user_id', FILTER_SANITIZE_NUMBER_INT);
     $shipping = filter_input(INPUT_POST, 'shipping', FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
+    $days = filter_input(INPUT_POST, 'days', FILTER_SANITIZE_NUMBER_INT);
 
     $productDetails = json_decode($_POST['productDetails'], true);
 
@@ -64,15 +65,13 @@ if (isset($_POST['placed_order_all'])) {
             if ($product_id && $quantity && $price && $variant) {
                 $total = floatval($price) * intval($quantity);
 
-                $placed = $payment->place_all_order($user_id, $product_id, $quantity, $price, $variant, $shipping, $tracking_number, $order_token);
-                
+                $placed = $payment->place_all_order($user_id, $days, $product_id, $quantity, $price, $variant, $shipping, $tracking_number, $order_token);
             } else {
                 throw new Exception("Invalid product data: Some fields are missing.");
             }
         }
 
         $info = $payment->update_info($mobile, $fname, $lname, $house, $address, $zip, $city, $region, $user_id);
-
     } catch (Exception $e) {
         die("Database error: " . $e->getMessage());
     }
@@ -89,11 +88,11 @@ if (isset($_POST['search_zip'])) {
 
     header('Content-Type: application/json');
 
-    if (is_numeric($shipping_fee) && $shipping_fee > 0) {
+    if (is_numeric($shipping_fee) && $shipping_fee > 0 && isset($result['days'])) {
         echo json_encode([
             'success' => true,
             'shipping_fee' => htmlspecialchars($shipping_fee),
-            'estimated_days' => htmlspecialchars($result['days']),
+            'day_delivery' => htmlspecialchars($result['days']),
             'total_pay' => htmlspecialchars($shipping_fee + $subtotal)
         ]);
     } else {
@@ -102,6 +101,7 @@ if (isset($_POST['search_zip'])) {
             'message' => 'Fee not available or limit exceeded'
         ]);
     }
+
     exit;
 }
 
@@ -114,12 +114,13 @@ if (isset($_POST['cart_zipcode'])) {
 
     header('Content-Type: application/json');
 
-    if (is_numeric($cart_fee) && $cart_fee > 0) {
+    if (is_numeric($cart_fee['fee']) && $cart_fee['fee'] > 0) {
         echo json_encode([
             'success' => true,
-            'shipping_fee' => htmlspecialchars($cart_fee),
-            'total_pay' => htmlspecialchars(number_format($cart_fee + $subtotal, 2)),
-            'total_pay2' => htmlspecialchars($cart_fee + $subtotal)
+            'shipping_fee' => htmlspecialchars($cart_fee['fee']),
+            'total_pay' => htmlspecialchars(number_format($cart_fee['fee'] + $subtotal, 2)),
+            'total_pay2' => htmlspecialchars($cart_fee['fee'] + $subtotal),
+            'day_delivery' => htmlspecialchars($cart_fee['days']) 
         ]);
     } else {
         echo json_encode([
@@ -127,5 +128,6 @@ if (isset($_POST['cart_zipcode'])) {
             'message' => 'Fee not available or limit exceeded'
         ]);
     }
+
     exit;
 }

@@ -3,18 +3,12 @@
 session_start();
 
 include('../../database/user.php');
-// $_SESSION['i_img'];
 $_SESSION['user_id'];
-// $_SESSION['price'];
-// $_SESSION['units'];
-
 ?>
 
-<style>
-    body {
-        background: linear-gradient(110deg, #BBDEFB 60%, #42A5F5 60%);
-    }
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<style>
     .shop {
         font-size: 10px;
     }
@@ -91,6 +85,10 @@ $_SESSION['user_id'];
         background-color: #4bb8a9 !important;
         color: #fff !important;
         border: 1px solid #4bb8a9;
+    }
+
+    .card-2 {
+        margin-top: 40px !important;
     }
 
     .card-header {
@@ -369,7 +367,9 @@ $_SESSION['user_id'];
     </div>
 </div>
 
-<input type="text" id="total_with_shipping" value="">
+<input type="hidden" id="total_with_shipping" value="">
+<input type="hidden" id="get_days" value="">
+
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -424,6 +424,7 @@ $_SESSION['user_id'];
                             $('#shipping-fee').text('+' + response.shipping_fee);
                             $('#total_with_shipping').val(response.shipping_fee);
                             $('#total_pay').text(response.total_pay);
+                            $('#get_days').val(response.day_delivery);
                         } else {
                             $('#shipping-fee').text(response.message);
                         }
@@ -451,6 +452,7 @@ $_SESSION['user_id'];
             const zip = $('#zip').val();
             const city = $('#city').val();
             const region = $('#region').val();
+            const days = $('#get_days').val();
 
             const user_id = <?php echo $_SESSION['user_id'] ?>;
             const productDetails = [];
@@ -465,19 +467,7 @@ $_SESSION['user_id'];
 
             const shipping = $('#total_with_shipping').val();
 
-            console.log({
-                fname,
-                lname,
-                mobile,
-                address,
-                house,
-                zip,
-                city,
-                region,
-                user_id,
-                productDetails, // Send the product details array
-                shipping
-            });
+
 
             $.ajax({
                 url: '../../database/user_payment.php',
@@ -494,7 +484,8 @@ $_SESSION['user_id'];
                     region: region,
                     user_id: user_id,
                     productDetails: JSON.stringify(productDetails),
-                    shipping: shipping
+                    shipping: shipping,
+                    days: days
                 },
                 success: function(response) {
                     console.log(response);

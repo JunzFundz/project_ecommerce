@@ -6,7 +6,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="../../database/additem.php" method="post" enctype="multipart/form-data">
+                <form action="../../database/additem.php" method="post">
                     <input type="text" name="catname" class="form-control mt-2 mb-2" placeholder="Category" aria-label="">
             </div>
             <div class="modal-footer">

@@ -39,14 +39,14 @@ if (isset($_POST['add_with_variants'])) {
         $weights = $_POST['weight'];
         $prices = $_POST['prices'];
         $stocks = $_POST['stock'];
-        
+
         foreach ($variables as $index => $variable) {
-            $weight = isset($weights[$index]) ? (float)$weights[$index] : 0.0; 
+            $weight = isset($weights[$index]) ? (float)$weights[$index] : 0.0;
             $stock = isset($stocks[$index]) ? (int)$stocks[$index] : 0;
             $price = isset($prices[$index]) ? (int)$prices[$index] : 0;
-        
+
             $variantInsert = $db->query("INSERT INTO product_variants (item_id, v_price, variable, stock, v_weight) VALUES ('$itemId', '$price', '$variable', '$stock', '$weight')");
-        
+
             if (!$variantInsert) {
                 echo "Error inserting variant: " . $db->error;
             }
@@ -63,9 +63,7 @@ if (isset($_POST['addcat'])) {
 
     $insert = $db->query("INSERT INTO categories (cat) VALUES ('$catname')");
 
-    if ($insert) {
-        header('location: adminitems.php');
-    }
+    header('location: ../public/admin/');
 }
 
 if (isset($_POST['check'])) {
@@ -86,50 +84,60 @@ if (isset($_POST['check'])) {
     }
 }
 
-if (isset($_POST['deleteImage'])) {
+if (isset($_POST['update'])) {
+    $itemid = $_POST['i_img'];
+    $product = $_POST['product'];
+    $price = $_POST['price'];
+    $category = $_POST['category'];
+    $desc = $_POST['desc'];
+    $quantity = $_POST['quantity'];
 
-    $imageName = $_POST['imageName'];
-    $itemid = $_POST['itemid'];
-
-    $imagePath = '../uploads/' . $imageName;
-
-
-    if (file_exists($imagePath)) {
-        if (unlink($imagePath)) {
-            
-            $stmt = $conn->prepare("SELECT i_img, img FROM items_data WHERE i_img = ? AND name = ?");
-            $stmt->bind_param("is", $itemid, $imageName);
-            $stmt->execute();
-            $result = $stmt->get_result();
-
-            if ($result->num_rows > 0) {
-                $row = $result->fetch_assoc();
-                $images = json_decode($row['img'], true);
-
-                if (($key = array_search($imageName, $images)) !== false) {
-                    unset($images[$key]);
-                    $images = array_values($images);
-                }
-
-                $updatedImages = json_encode($images);
-
-                $updateStmt = $conn->prepare("UPDATE items SET img = ? WHERE id = ?");
-                $updateStmt->bind_param("si", $updatedImages, $itemid);
-
-                if ($updateStmt->execute()) {
-                    echo json_encode(['success' => true, 'message' => 'Image deleted successfully.']);
-                } else {
-                    echo json_encode(['success' => false, 'message' => 'Failed to update the database.']);
-                }
-            } else {
-                echo json_encode(['success' => false, 'message' => 'Item not found.']);
-            }
-        } else {
-            echo json_encode(['success' => false, 'message' => 'Failed to delete the image file.']);
-        }
-    } else {
-        echo json_encode(['success' => false, 'message' => 'Image not found.']);
-    }
-    exit;
+    $result = $db->query("UPDATE items_data SET category='$category', name='$product', des='$desc', quantity= '$quantity', price = '$price' WHERE i_img='$itemid'");
+    header('location: ../public/admin/');
 }
-?>
+
+if (isset($_POST['delete_item'])) {
+
+    header('Content-Type: application/json');
+
+    $item_id = filter_input(INPUT_POST, 'item_id', FILTER_SANITIZE_NUMBER_INT);
+
+    $stmt = $db->prepare("SELECT img FROM items_data WHERE i_img = ?");
+    $stmt->bind_param("i", $item_id);
+    $stmt->execute();
+    $stmt->store_result();
+
+    if ($stmt->num_rows > 0) {
+        $stmt->bind_result($img);
+        $stmt->fetch();
+        $stmt->close();
+
+        $stmt = $db->prepare("DELETE FROM items_data WHERE i_img = ?");
+        $stmt->bind_param("i", $item_id);
+        $stmt->execute();
+        $stmt->close();
+
+        $stmt = $db->prepare("DELETE FROM product_variants WHERE item_id = ?");
+        $stmt->bind_param("i", $item_id);
+
+        if ($stmt->execute()) {
+            $uploadsDir = '../uploads/';
+            $imagePath = $uploadsDir . basename($img);
+
+            if ($img && file_exists($imagePath)) {
+                unlink($imagePath);
+            }
+
+            echo json_encode(['success' => true]);
+        } else {
+            echo json_encode(['success' => false, 'message' => 'Failed to delete item from database.']);
+        }
+
+        $stmt->close();
+    } else {
+
+        echo json_encode(['success' => false, 'message' => 'Item not found.']);
+    }
+
+    $db->close();
+}

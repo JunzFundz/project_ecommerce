@@ -1,103 +1,90 @@
 <?php
+require_once 'Classes/Users.php';
+require_once 'Classes/Emails.php';
 
-require_once '../database/Connection.php';
+use Classes\Users;
+use Classes\Emails;
+
+$insert = new Users();
+$send_mail = new Emails();
 
 session_start();
 
-// if (isset($_COOKIE['device_token'])) {
-//     $device_token = $_COOKIE['device_token'];
-
-//     $stmt = $db->prepare("SELECT * FROM users WHERE device_token = ?");
-//     $stmt->bind_param("s", $device_token);
-//     $stmt->execute();
-//     $result = $stmt->get_result();
-
-//     if ($result->num_rows > 0) {
-//         $user = $result->fetch_assoc();
-//         $_SESSION['user_id'] = $user['user_id'];
-//         $_SESSION['mobile'] = $user['mobile'];
-
-//         if ($user['user_id'] === 89) {
-//             header("Location: ../public/admin/");
-//         } else {
-//             header("Location: ../public/user/");
-//         }
-//         exit();
-//     }
-// }
-
 if (isset($_POST['signin'])) {
     $mobile = filter_var($_POST['mobile'], FILTER_SANITIZE_NUMBER_INT);
+    $pass = filter_var($_POST['pass'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
-    if (!empty($mobile) && is_numeric($mobile)) {
-        $stmt = $db->prepare("SELECT user_id, mobile, device_token FROM users WHERE mobile = ?");
-        if ($stmt === false) {
-            die("Error preparing the query: " . $db->error);
-        }
+    if (empty($mobile) || empty($pass)) {
+        die('Mobile and password cannot be empty');
+    }
 
-        $stmt->bind_param("s", $mobile);
-        $stmt->execute();
-        $result = $stmt->get_result();
+    $user = $insert->select($mobile);
 
-        if ($result->num_rows > 0) {
-            $user = $result->fetch_assoc();
+    if ($user) {
+        if (password_verify($pass, $user['pass'])) {
             $_SESSION['user_id'] = $user['user_id'];
             $_SESSION['mobile'] = $user['mobile'];
 
-            if ($user['device_token'] === $_COOKIE['device_token']) {
-                if ($user['user_id'] === 89) {
-                    header("Location: ../public/admin/");
-                } else {
-                    header("Location: ../public/user/");
-                }
-                exit();
+            if ($user['user_id'] === 120) {
+                header("Location: ../public/admin/");
             } else {
-                $device_token = bin2hex(random_bytes(16));
-                $stmt = $db->prepare("UPDATE users SET device_token = ? WHERE user_id = ?");
-                $stmt->bind_param("si", $device_token, $user['user_id']);
-                $stmt->execute();
-
-                setcookie('device_token', $device_token, time() + (86400 * 30), "/");
-
-                if ($user['user_id'] === 89) {
-                    header("Location: ../public/admin/");
-                } else {
-                    header("Location: ../public/user/");
-                }
-                exit();
+                header("Location: ../public/user/");
             }
+            exit();
         } else {
-            $stmt = $db->prepare("INSERT INTO users (mobile, created_at, device_token) VALUES (?, NOW(), ?)");
-            if ($stmt === false) {
-                die("Error preparing the insert query: " . $db->error);
-            }
-
-            $device_token = bin2hex(random_bytes(16));
-            $stmt->bind_param("ss", $mobile, $device_token);
-
-            if ($stmt->execute()) {
-
-                $userId = $db->insert_id;
-                $_SESSION['user_id'] = $userId;
-                $_SESSION['mobile'] = $mobile;
-
-                setcookie('device_token', $device_token, time() + (86400 * 30), "/");
-
-                if ($userId === 89) {
-                    header("Location: ../public/admin/");
-                } else {
-                    header("Location: ../public/user/");
-                }
-                exit();
-            } else {
-                return false;
-            }
+            die('Incorrect password. Please try again.');
         }
-
-        $stmt->close();
     } else {
-        return false;
+        $hashed_pass = password_hash($pass, PASSWORD_DEFAULT);
+        $result = $insert->insert_user($mobile, $hashed_pass);
+
+        if ($result) {
+            $new_user = $insert->select($mobile);
+
+            $_SESSION['user_id'] = $new_user['user_id'];
+            $_SESSION['mobile'] = $new_user['mobile'];
+
+            header("Location: ../public/user/");
+
+            exit();
+        } else {
+            die('Error creating account');
+        }
     }
 }
 
-$db->close();
+if (isset($_POST['confirm'])) {
+    $email = filter_var($_POST['email'], FILTER_VALIDATE_EMAIL);
+    $number = filter_var($_POST['number'], FILTER_SANITIZE_NUMBER_INT);
+
+    $send = $send_mail->insert($email, $number);
+    header('location: ../pages/verification.php');
+}
+
+if (isset($_POST['confirm_code'])) {
+    $cpass = filter_var($_POST['cpass'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    $vr_code = filter_var($_POST['vr_code'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+
+    $newpass = password_hash($cpass, PASSWORD_DEFAULT);
+
+    try {
+        $send = $insert->update_data($newpass, $vr_code);
+        if ($send) {
+            echo 'success';
+        } else {
+            echo 'Failed to update the password. Please try again.';
+        }
+    } catch (Exception $e) {
+        echo 'Error: ' . $e->getMessage();
+    }
+}
+
+
+if (isset($_POST['confirm_newpass'])) {
+    $cpass = filter_var($_POST['cpass'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    $user_id = filter_var($_POST['user_id'], FILTER_SANITIZE_NUMBER_INT);
+
+    $newpass = password_hash($cpass, PASSWORD_DEFAULT);
+
+    $send = $insert->update_pass($newpass, $user_id);
+}

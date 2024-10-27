@@ -1,6 +1,7 @@
 <?php
 session_start();
 require_once('../../database/user_items.php');
+require_once('../../database/user_get_reviews.php');
 
 $defaultImage = "../uploads/default.jpg";
 $firstImage = $defaultImage;
@@ -13,7 +14,28 @@ if (!empty($get)) {
     }
 }
 ?>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
+    .star-ratings {
+        position: relative;
+        width: max-content;
+        display: inline-block;
+    }
+
+    .empty-stars i {
+        color: #ddd;
+    }
+
+    .filled-stars {
+        position: absolute;
+        top: 0;
+        left: 0;
+        overflow: hidden;
+        white-space: nowrap;
+        color: #ffcc00;
+        width: 0%;
+    }
+
     .marker-1 {
         margin-inline: 10px;
     }
@@ -208,6 +230,7 @@ if (!empty($get)) {
         border-radius: 0px !important
     }
 </style>
+
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
@@ -260,68 +283,86 @@ if (!empty($get)) {
                             <p><?= $item['des'] ?></p>
                         </div>
                         <h3 id="change-price">&#8369;<span id="price-display"><?= number_format($item['price'], 2) ?></span></h3>
+
                         <div class="ratings d-flex flex-row align-items-center">
-                            <div class="d-flex flex-row"><i class='bx bxs-star'></i><i class='bx bxs-star'></i><i class='bx bxs-star'></i><i class='bx bxs-star'></i><i class='bx bx-star'></i> </div> <span>441 reviews</span>
+                            <div class="star-ratings">
+                                <div class="empty-stars">
+                                    <i class='bx bx-star'></i>
+                                    <i class='bx bx-star'></i>
+                                    <i class='bx bx-star'></i>
+                                    <i class='bx bx-star'></i>
+                                    <i class='bx bx-star'></i>
+                                </div>
+                                <div class="filled-stars" style="width: 0%;">
+                                    <i class='bx bxs-star'></i>
+                                    <i class='bx bxs-star'></i>
+                                    <i class='bx bxs-star'></i>
+                                    <i class='bx bxs-star'></i>
+                                    <i class='bx bxs-star'></i>
+                                </div>
+                            </div>
+                            <span class="rating-count">0 reviews</span>
                         </div>
+
+
                         <p>
                             <?php foreach ($var as $variants) :
                                 $unit_get;
                                 if (htmlspecialchars($item['units']) == 1) {
-                                    echo $unit_get = htmlspecialchars($variants['v_weight'] . "ml ");
+                                    $unit_get = htmlspecialchars($variants['v_weight'] . "ml ");
                                 } else if (htmlspecialchars($item['units']) == 2) {
-                                    echo $unit_get = htmlspecialchars($variants['v_weight'] . "g ");
+                                    $unit_get = htmlspecialchars($variants['v_weight'] . "g ");
                                 } else if (htmlspecialchars($item['units']) == 3) {
-                                    echo $unit_get = htmlspecialchars($variants['v_weight'] . "kg ");
+                                    $unit_get = htmlspecialchars($variants['v_weight'] . "kg ");
                                 } else {
                                     exit();
                                 } ?>
-
                         <form action="payment.php" method="post">
                             <input type="hidden" name="weight" value="<?= htmlspecialchars($variants['v_weight']) ?>">
 
                         <?php endforeach; ?>
                         </p>
                         <p><?= htmlspecialchars($item['des']) ?></p>
-                        <form action="payment.php" method="post">
 
-                            <input type="hidden" name="price" value="<?= htmlspecialchars($item['price']) ?>">
-                            <input type="hidden" name="units" value="<?php echo $_SESSION['units'] = $item['units']; ?>">
-                            <input type="hidden" name="user_id" value="<?php echo $_SESSION['user_id'] ?>">
-                            <input type="hidden" name="item_id" value="<?php echo $_SESSION['i_img'] = $item['i_img']; ?>">
+                        <input type="hidden" name="price" value="<?= htmlspecialchars($item['price']) ?>">
+                        <input type="hidden" name="units" value="<?php echo $_SESSION['units'] = $item['units']; ?>">
+                        <input type="hidden" name="user_id" value="<?php echo $_SESSION['user_id'] ?>">
+                        <input type="hidden" id="get_item_id" name="item_id" value="<?php echo $_SESSION['i_img'] = $item['i_img']; ?>">
 
-                            <div class="mt-5"> <span class="fw-bold">Variants</span>
-                                <div class="">
-                                    <ul id="marker" style="padding-left: 0 !important; display: flex; flex-wrap: wrap; list-style: none">
+                        <div class="mt-5"> <span class="fw-bold">Variants</span>
+                            <div class="">
+                                <ul id="marker" style="padding-left: 0 !important; display: flex; flex-wrap: wrap; list-style: none">
 
-                                        <?php foreach ($var as $variants) : ?>
-                                            <li id="marker-1">
-                                                <label class="radio" style="margin: 3px !important;">
-                                                    <input
-                                                        type="radio"
-                                                        class="variant-option"
-                                                        name="variant"
-                                                        value="<?= htmlspecialchars($variants['var_id']) ?>"
-                                                        data-price="<?= htmlspecialchars($variants['v_price']) ?>">
-                                                    <span><?= htmlspecialchars($variants['variable']) ?></span>
-                                                </label>
-                                            </li>
-                                        <?php endforeach; ?>
+                                    <?php foreach ($var as $variants) : ?>
+                                        <li id="marker-1">
+                                            <label class="radio" style="margin: 3px !important;">
+                                                <input
+                                                    required
+                                                    type="radio"
+                                                    class="variant-option"
+                                                    name="variant"
+                                                    value="<?= htmlspecialchars($variants['var_id']) ?>"
+                                                    data-price="<?= htmlspecialchars($variants['v_price']) ?>">
+                                                <span><?= htmlspecialchars($variants['variable']) ?></span>
+                                            </label>
+                                        </li>
+                                    <?php endforeach; ?>
 
-                                    </ul>
-                                </div>
+                                </ul>
                             </div>
-                            <div class="mt-5">
-                                <p class="fw-bold">Quantity</p>
-                                <div class="d-flex align-items-center">
-                                    <button type="button" class="btn btn-outline-secondary px-3" id="decrement" style="border-radius: 0;">-</button>
-                                    <input type="text" class="btn-outline-secondary form-control text-center total_quantity" id="total_quantity" name="quantity" value="1" min="1" style="width: 60px; border-radius: 0;">
-                                    <button type="button" class="btn btn-outline-secondary px-3" id="increment" style="border-radius: 0;">+</button>
-                                </div>
+                        </div>
+                        <div class="mt-5">
+                            <p class="fw-bold">Quantity</p>
+                            <div class="d-flex align-items-center">
+                                <button type="button" class="btn btn-outline-secondary px-3" id="decrement" style="border-radius: 0;">-</button>
+                                <input type="text" class="btn-outline-secondary form-control text-center total_quantity" id="total_quantity" name="quantity" value="1" min="1" style="width: 60px; border-radius: 0;">
+                                <button type="button" class="btn btn-outline-secondary px-3" id="increment" style="border-radius: 0;">+</button>
                             </div>
-                            <div class="buttons d-flex flex-row mt-5 gap-3">
-                                <button type="submit" name="buy_it_now" class="btn btn-outline-dark" id="buy_it_now">Buy Now</button>
+                        </div>
+                        <div class="buttons d-flex flex-row mt-5 gap-3">
+                            <button type="submit" name="buy_it_now" class="btn btn-outline-dark" id="buy_it_now">Buy Now</button>
 
-                                <button type="button" class="btn btn-dark" id="add_to_cart">Add to Cart</button>
+                            <button type="button" class="btn btn-dark" id="add_to_cart">Add to Cart</button>
                         </form>
                     </div>
                 </div>
@@ -337,36 +378,70 @@ if (!empty($get)) {
                                 <h4 class="card-title mb-4 mt-4">
                                     Customer Reviews
                                 </h4>
-                                <div cass="table-responsive mb-4 rounded-1">
-                                    <table class="table mb-0 align-middle">
-                                        <tbody>
-                                            <tr>
-                                                <td>
-                                                    <div class="d-flex align-items-center">
-                                                        <img src="https://svgshare.com/i/17bj.svg" class="rounded-circle" width="30" height="30">
-                                                        <div class="ms-3">
-                                                            <h6 class="fs-6 fw-semibold mb-0 text-nowrap">Sunil Joshi</h6>
-                                                            <div class="star d-flex align-items-center gap-1 mb-1" style="color: orange">
-                                                                <i class="bi bi-star-fill"></i>
-                                                                <i class="bi bi-star-fill"></i>
-                                                                <i class="bi bi-star-fill"></i>
-                                                                <i class="bi bi-star-fill"></i>
-                                                                <i class="bi bi-star-fill"></i>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td>
+                                <?php if (!empty($review_lists)) : ?>
+                                    <?php foreach ($review_lists as $rows) :
 
-                                                    <span class="mb-0 fw-normal fs-7 mt-2 text-muted">I like this design</span>
-                                                </td>
-                                                <td>
-                                                    <p class="mb-0 fw-normal fs-7 text-end text-nowrap text-muted">1 day ago</p>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
+                                        $dateAdded = new DateTime($rows['date_added']);
+                                        $now = new DateTime();
+                                        $interval = $now->diff($dateAdded);
+
+                                        if ($interval->y > 0) {
+                                            $timeAgo = $interval->y . ' year' . ($interval->y > 1 ? 's' : '') . ' ago';
+                                        } elseif ($interval->m > 0) {
+                                            $timeAgo = $interval->m . ' month' . ($interval->m > 1 ? 's' : '') . ' ago';
+                                        } elseif ($interval->d > 0) {
+                                            $timeAgo = $interval->d . ' day' . ($interval->d > 1 ? 's' : '') . ' ago';
+                                        } elseif ($interval->h > 0) {
+                                            $timeAgo = $interval->h . ' hour' . ($interval->h > 1 ? 's' : '') . ' ago';
+                                        } elseif ($interval->i > 0) {
+                                            $timeAgo = $interval->i . ' minute' . ($interval->i > 1 ? 's' : '') . ' ago';
+                                        } else {
+                                            $timeAgo = 'just now';
+                                        }
+                                    ?>
+                                        <div cass="table-responsive mb-4 rounded-1">
+                                            <table class="table mb-0 align-middle">
+                                                <tbody>
+                                                    <tr>
+                                                        <td>
+                                                            <div class="d-flex align-items-center">
+                                                                <img src="https://svgshare.com/i/17bj.svg" class="rounded-circle" width="30" height="30">
+                                                                <div class="ms-3">
+                                                                    <h6 class="fs-6 fw-semibold mb-0 text-nowrap"><?= $dateAdded->format('F j, Y') ?></h6>
+                                                                    <div class="star d-flex align-items-center gap-1 mb-1" style="color: orange">
+                                                                        <?php
+                                                                        $rating = (int)$rows['rate_data'];
+
+                                                                        for ($i = 1; $i <= 5; $i++) {
+                                                                            if ($i <= $rating) {
+                                                                                echo '<i class="bi bi-star-fill"></i>';
+                                                                            } else {
+                                                                                echo '<i class="bi bi-star"></i>';
+                                                                            }
+                                                                        }
+                                                                        ?>
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <span class="mb-0 fw-normal fs-7 mt-2 text-muted"><?= $rows['text'] ?></span>
+                                                        </td>
+                                                        <td>
+                                                            <div class="ms-3">
+                                                                <p class="mb-0 fw-normal fs-7 text-end text-nowrap text-muted"><?= $timeAgo ?></p>
+                                                            </div>
+
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    <?php endforeach; ?>
+                                <?php else : ?>
+                                    <p>No products available.</p>
+                                <?php endif; ?>
                             </div>
                         </div>
                     </div>
@@ -376,14 +451,61 @@ if (!empty($get)) {
     </div>
 </div>
 
-
-
-
-
-
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script>
+    $(document).ready(function() {
+        const item_id = $('#get_item_id').val();
+
+        $.ajax({
+            url: '../../database/user_rate.php',
+            type: 'POST',
+            data: {
+                'get_average_rating': true,
+                'item_id': item_id
+            },
+            dataType: 'JSON',
+            success: function(response) {
+                if (response.average_rating !== undefined) {
+                    const avgRating = response.average_rating;
+                    const percentage = (avgRating / 5) * 100;
+
+                    $('.star-ratings .filled-stars').css('width', percentage + '%');
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('Error fetching average rating:', error);
+            }
+        });
+    });
+
+    $(document).ready(function() {
+        const item_id = $('#get_item_id').val();
+
+        $.ajax({
+            url: '../../database/user_rate.php',
+            type: 'POST',
+            data: {
+                'get_ratings_count': true,
+                'item_id': item_id
+            },
+            success: function(response) {
+                console.log(response);
+                if (response.success) {
+                    $('.ratings .rating-count').text(response.total_ratings + ' reviews');
+                } else {
+                    $('.ratings .rating-count').text('No reviews yet');
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('Error fetching ratings count:', error);
+                console.log('Response:', xhr.responseText);
+            }
+        });
+
+    });
+
     $(document).ready(function() {
         $('.variant-option').on('change', function() {
             const selectedPrice = $(this).data('price');
@@ -394,8 +516,8 @@ if (!empty($get)) {
     });
 
     $(document).ready(function() {
-        $('#add_to_cart').click(function() {
-
+        $('#add_to_cart').click(function(e) {
+            e.preventDefault();
             const user_id = $('input[name="user_id"]').val();
             const item_id = $('input[name="item_id"]').val();
             const weight = $('input[name="weight"]').val();
@@ -404,12 +526,10 @@ if (!empty($get)) {
             const price = $('input[name="price"]').val();
             const quantity = $('input[name="quantity"]').val();
 
-            console.log(item_id,
-                user_id,
-                variant,
-                units,
-                price,
-                quantity)
+            if (!variant) {
+                alert('Please select a variant before proceeding.');
+                return;
+            }
 
             $.ajax({
                 url: "../../database/user.php",
@@ -425,45 +545,20 @@ if (!empty($get)) {
                     'quantity': quantity
                 },
                 success: function(data) {
-                    window.location.reload();
+                    Swal.fire({
+                        title: "Added to cart",
+                        text: "Item added",
+                        icon: "success",
+                        confirmButtonText: "OK"
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.reload();
+                        }
+                    });
+
                 }
             });
         })
-
-        $('#buy_it_now').click(function() {
-            const
-                price = $(this).data('item_price'),
-                item_id = $(this).data('item_id'),
-                user_id = $(this).data('user_id'),
-                variant = $('input[name="variant"]:checked').val(),
-                new_quantity = $('.total_quantity').val();
-
-            console.log(item_id, user_id, variant, new_quantity, price);
-
-            $.ajax({
-                url: "../../database/user.php",
-                type: "post",
-                data: {
-                    'buy_now': true,
-                    'price': price,
-                    'item_id': item_id,
-                    'new_quantity': new_quantity,
-                    'variant': variant,
-                    'user_id': user_id
-                },
-                dataType: 'JSON',
-                success: function(response) {
-                    if (response.redirect) {
-                        window.location.href = response.redirect;
-                    }
-                },
-                error: function(xhr, status, error) {
-                    console.error('AJAX Error:', status, error);
-                }
-            });
-        });
-
-
     })
     const quantityInput = document.getElementById('total_quantity');
     const incrementBtn = document.getElementById('increment');

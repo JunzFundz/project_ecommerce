@@ -24,7 +24,7 @@
                                 </div>
                                 <div class="col-sm mr-4">
                                     <select class="form-select" aria-label="Default select example" id="categories_2" name="category">
-                                        <option selected>Category</option>
+                                        
                                     </select>
                                 </div>
                             </div>

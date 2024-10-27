@@ -1,5 +1,4 @@
 <?php
-
 session_start();
 
 require_once('../../database/user_show_data.php');
@@ -11,6 +10,8 @@ $total_quantity;
 $variant;
 
 ?>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
     .shop {
@@ -380,12 +381,11 @@ $variant;
                         'subtotal': subtotal
                     },
                     success: function(response) {
-                        console.log(response);
                         if (response.success) {
                             $('#shipping-fee').text('+' + response.shipping_fee);
                             $('#total_with_shipping').val(response.shipping_fee);
                             $('#total_pay').text(response.total_pay);
-                            $('#get_days').val(response.estimated_days);
+                            $('#get_days').val(response.day_delivery);
                         } else {
                             $('#shipping-fee').text(response.message);
                         }
@@ -405,7 +405,9 @@ $variant;
         });
 
 
-        $('#placed_order').on('click', function() {
+        $('#placed_order').on('click', function(event) {
+            event.preventDefault();
+
             const fname = $('#fname').val();
             const lname = $('#lname').val();
             const mobile = $('#mobile').val();
@@ -414,68 +416,101 @@ $variant;
             const zip = $('#zip').val();
             const city = $('#city').val();
             const region = $('#region').val();
+            const days = $('#get_days').val();
 
-            const user_id = <?php echo $_SESSION['user_id'] ?>;
-            const product_id = <?php echo $product_id ?>;
-            const quantity = <?php echo $total_quantity ?>;
-            const price = <?php echo $price ?>;
-            const variant = <?php echo $variant ?>;
+            const user_id = <?php echo $_SESSION['user_id']; ?>;
+            const product_id = <?php echo $product_id; ?>;
+            const quantity = <?php echo $total_quantity; ?>;
+            const price = <?php echo $price; ?>;
+            const variant = <?php echo $variant; ?>;
             const shipping = $('#total_with_shipping').val();
 
-            console.log({
-                fname,
-                lname,
-                mobile,
-                address,
-                house,
-                zip,
-                city,
-                region,
-                user_id,
-                product_id,
-                quantity,
-                price
+            const fields = [{
+                    selector: '#fname',
+                    value: fname
+                },
+                {
+                    selector: '#lname',
+                    value: lname
+                },
+                {
+                    selector: '#mobile',
+                    value: mobile
+                },
+                {
+                    selector: '#address',
+                    value: address
+                },
+                {
+                    selector: '#house',
+                    value: house
+                },
+                {
+                    selector: '#zip',
+                    value: zip
+                },
+                {
+                    selector: '#city',
+                    value: city
+                },
+                {
+                    selector: '#region',
+                    value: region
+                },
+            ];
+
+            let isValid = true;
+
+            fields.forEach(field => {
+                if (!field.value) {
+                    $(field.selector).css('border', '2px solid red');
+                    isValid = false;
+                } else {
+                    $(field.selector).css('border', '');
+                }
             });
 
-            $.ajax({
-                url: '../../database/user_payment.php',
-                method: 'POST',
-                data: {
-                    'placed_order_now': true,
-                    fname: fname,
-                    lname: lname,
-                    mobile: mobile,
-                    address: address,
-                    house: house,
-                    zip: zip,
-                    city: city,
-                    region: region,
+            if (isValid) {
+                $.ajax({
+                    url: '../../database/user_payment.php',
+                    method: 'POST',
+                    data: {
+                        'placed_order_now': true,
+                        fname: fname,
+                        lname: lname,
+                        mobile: mobile,
+                        address: address,
+                        house: house,
+                        zip: zip,
+                        city: city,
+                        region: region,
+                        days: days,
+                        user_id: user_id,
+                        product_id: product_id,
+                        quantity: quantity,
+                        price: price,
+                        variant: variant,
+                        shipping: shipping
+                    },
+                    success: function(response) {
+                        Swal.fire({
+                            title: "Order placed",
+                            text: "Your order has been placed successfully.",
+                            icon: "success",
+                            confirmButtonText: "OK"
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                window.location.href = "index.php";
+                            }
+                        });
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(error);
+                    }
+                });
+            }
+        });
 
-                    user_id: user_id,
-                    product_id: product_id,
-                    quantity: quantity,
-                    price: price,
-                    variant: variant,
-                    shipping: shipping
-                },
-                success: function(response) {
-                    console.log(response);
-                    Swal.fire({
-                        title: "Order placed",
-                        text: "Your order has been placed successfully.",
-                        icon: "success",
-                        confirmButtonText: "OK"
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            window.location.href = "index.php";
-                        }
-                    });
-                },
-                error: function(xhr, status, error) {
-                    console.error(error);
-                }
-            })
-        })
 
     });
 </script>

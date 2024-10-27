@@ -21,7 +21,7 @@ class Payment extends Connection
         return strtoupper(bin2hex(random_bytes(4)));
     }
 
-    public function place_all_order($user_id, $product_id, $quantity, $price, $variant, $shipping, $tracking_number, $order_token)
+    public function place_all_order($user_id, $days, $product_id, $quantity, $price, $variant, $shipping, $tracking_number, $order_token)
     {
         try {
             $stmt_order = $this->getPdo()->prepare("
@@ -35,6 +35,7 @@ class Payment extends Connection
                     tracking_number, 
                     order_token, 
                     order_date, 
+                    days,
                     order_status
                 ) 
                 VALUES (
@@ -47,10 +48,11 @@ class Payment extends Connection
                     :tracking_number, 
                     :order_token, 
                     NOW(), 
+                    :days,
                     1
                 )
             ");
-    
+
             $stmt_order->bindParam(':user_id', $user_id, \PDO::PARAM_INT);
             $stmt_order->bindParam(':product_id', $product_id, \PDO::PARAM_INT);
             $stmt_order->bindParam(':variant', $variant, \PDO::PARAM_STR);
@@ -59,28 +61,29 @@ class Payment extends Connection
             $stmt_order->bindParam(':shipping', $shipping, \PDO::PARAM_STR);
             $stmt_order->bindParam(':tracking_number', $tracking_number, \PDO::PARAM_STR);
             $stmt_order->bindParam(':order_token', $order_token, \PDO::PARAM_STR);
-    
+            $stmt_order->bindParam(':days', $days, \PDO::PARAM_INT);
+
             $stmt_order->execute();
             $placed = $this->getPdo()->lastInsertId();
-    
+
             $stmt_delete_cart = $this->getPdo()->prepare("
                 DELETE FROM cart 
                 WHERE user_id = :user_id 
                 AND item_id = :product_id
                 AND c_var = :variant
             ");
-    
+
             $stmt_delete_cart->bindParam(':user_id', $user_id, \PDO::PARAM_INT);
             $stmt_delete_cart->bindParam(':product_id', $product_id, \PDO::PARAM_INT);
             $stmt_delete_cart->bindParam(':variant', $variant, \PDO::PARAM_STR);
-    
+
             $stmt_delete_cart->execute();
             return $placed;
         } catch (\PDOException $e) {
             throw new Exception("Failed to place order: " . $e->getMessage());
         }
     }
-    
+
 
     public function place_order($user_id, $product_id, $quantity, $price, $variant, $shipping)
     {
@@ -325,54 +328,57 @@ class Payment extends Connection
 
     public function cart_zip($zipcode, $weight)
     {
+        header('Content-Type: application/json');
+
         try {
             if ($weight < 0.5) {
-                $stmt = $this->getPdo()->prepare("SELECT * FROM j_t WHERE zipcodes = :zipcode AND _500 IS NOT NULL");
-                $stmt->bindParam(':zipcode', $zipcode, \PDO::PARAM_INT);
-                $stmt->execute();
-                $zipData = $stmt->fetchAll(\PDO::FETCH_ASSOC);
-                return !empty($zipData) ? $zipData[0]['_500'] : 0;
+                return $this->getDeliveryFee($zipcode, '_5');
             } elseif ($weight >= 0.5 && $weight < 1.0) {
-                $stmt = $this->getPdo()->prepare("SELECT * FROM j_t WHERE zipcodes = :zipcode AND 500_1000 IS NOT NULL");
-                $stmt->bindParam(':zipcode', $zipcode, \PDO::PARAM_INT);
-                $stmt->execute();
-                $zipData = $stmt->fetchAll(\PDO::FETCH_ASSOC);
-                return !empty($zipData) ? $zipData[0]['500_1000'] : 0;
+                return $this->getDeliveryFee($zipcode, '5_1');
             } elseif ($weight >= 1.0 && $weight < 3.0) {
-                $stmt = $this->getPdo()->prepare("SELECT * FROM j_t WHERE zipcodes = :zipcode AND 1000_3000 IS NOT NULL");
-                $stmt->bindParam(':zipcode', $zipcode, \PDO::PARAM_INT);
-                $stmt->execute();
-                $zipData = $stmt->fetchAll(\PDO::FETCH_ASSOC);
-                return !empty($zipData) ? $zipData[0]['1000_3000'] : 0;
+                return $this->getDeliveryFee($zipcode, '1_3');
             } elseif ($weight >= 3.0 && $weight < 4.0) {
-                $stmt = $this->getPdo()->prepare("SELECT * FROM j_t WHERE zipcodes = :zipcode AND 3000_4000 IS NOT NULL");
-                $stmt->bindParam(':zipcode', $zipcode, \PDO::PARAM_INT);
-                $stmt->execute();
-                $zipData = $stmt->fetchAll(\PDO::FETCH_ASSOC);
-                return !empty($zipData) ? $zipData[0]['3000_4000'] : 0;
+                return $this->getDeliveryFee($zipcode, '3_4');
             } elseif ($weight >= 4.0 && $weight < 5.0) {
-                $stmt = $this->getPdo()->prepare("SELECT * FROM j_t WHERE zipcodes = :zipcode AND 4000_5000 IS NOT NULL");
-                $stmt->bindParam(':zipcode', $zipcode, \PDO::PARAM_INT);
-                $stmt->execute();
-                $zipData = $stmt->fetchAll(\PDO::FETCH_ASSOC);
-                return !empty($zipData) ? $zipData[0]['4000_5000'] : 0;
+                return $this->getDeliveryFee($zipcode, '4_5');
             } elseif ($weight >= 5.0 && $weight < 6.0) {
-                $stmt = $this->getPdo()->prepare("SELECT * FROM j_t WHERE zipcodes = :zipcode AND 5000_6000 IS NOT NULL");
-                $stmt->bindParam(':zipcode', $zipcode, \PDO::PARAM_INT);
-                $stmt->execute();
-                $zipData = $stmt->fetchAll(\PDO::FETCH_ASSOC);
-                return !empty($zipData) ? $zipData[0]['5000_6000'] : 0;
+                return $this->getDeliveryFee($zipcode, '5_6');
+            } elseif ($weight >= 6.0 && $weight < 7.0) {
+                return $this->getDeliveryFee($zipcode, '6_7');
+            } elseif ($weight >= 7.0 && $weight < 8.0) {
+                return $this->getDeliveryFee($zipcode, '7_8');
+            } elseif ($weight >= 8.0 && $weight < 9.0) {
+                return $this->getDeliveryFee($zipcode, '8_9');
+            } elseif ($weight >= 9.0 && $weight < 10.0) {
+                return $this->getDeliveryFee($zipcode, '9_10');
+            } elseif ($weight == 10.0) {
+                return $this->getDeliveryFee($zipcode, '_10');
             } else {
                 return 0;
             }
         } catch (\PDOException $e) {
             error_log("Database query error: " . $e->getMessage());
             return 0;
-        } catch (\Exception $e) {
-            error_log("Error: " . $e->getMessage());
-            return 0; // Handle other errors
         }
     }
+
+    private function getDeliveryFee($zipcode, $column)
+    {
+        $stmt = $this->getPdo()->prepare("SELECT * FROM delivery WHERE zipcodes = :zipcode AND $column IS NOT NULL");
+        $stmt->bindParam(':zipcode', $zipcode, \PDO::PARAM_INT);
+        $stmt->execute();
+        $zipData = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+
+        if (!empty($zipData)) {
+            return [
+                'fee' => $zipData[0][$column],
+                'days' => $zipData[0]['days'] ?? 0 
+            ];
+        }
+
+        return ['fee' => 0, 'days' => 0];
+    }
+
 
     public function update_info($mobile, $fname, $lname, $house, $address, $zip, $city, $region, $user_id)
     {

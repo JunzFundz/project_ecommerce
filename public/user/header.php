@@ -6,7 +6,152 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge" />
     <meta name="description" content="" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="https://cdn.ayroui.com/1.0/css/bootstrap.min.css" />
+    <link href="https://cdn.lineicons.com/3.0/lineicons.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.ayroui.com/1.0/css/starter.css" />
+
     <style>
+        body {
+            background: rgb(255, 255, 255);
+            background: linear-gradient(80deg, rgba(255, 255, 255, 1) 9%, rgba(57, 207, 64, 1) 100%);
+        }
+
+        .yellow-star {
+            color: #FFD700;
+        }
+
+        .item--rating {
+            font-size: 2rem;
+        }
+
+        .features-style-one .primary-btn-outline {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .features-style-one .active.primary-btn-outline,
+        .features-style-one .primary-btn-outline:hover,
+        .features-style-one .primary-btn-outline:focus {
+            background: var(--primary-dark);
+            color: var(--white);
+        }
+
+        .features-style-one .deactive.primary-btn-outline {
+            color: var(--dark-3);
+            border-color: var(--gray-4);
+            pointer-events: none;
+        }
+
+        .features-one {
+            padding-top: 120px;
+            padding-bottom: 120px;
+        }
+
+        .features-one .section-title {
+            padding-bottom: 10px;
+        }
+
+        .features-one .title {
+            font-size: 44px;
+            font-weight: 600;
+            color: #297300;
+            line-height: 55px;
+        }
+
+        @media (max-width: 767px) {
+            .features-one .title {
+                font-size: 30px;
+                line-height: 35px;
+            }
+        }
+
+        .features-one .text {
+            font-size: 16px;
+            line-height: 24px;
+            color: var(--dark-3);
+            margin-top: 24px;
+        }
+
+        .features-style-one {
+            background-color: var(--white);
+            padding: 40px 20px;
+            margin-top: 40px;
+            box-shadow: var(--shadow-2);
+            border-radius: 4px;
+            transition: all 0.3s;
+        }
+
+        .features-style-one:hover {
+            box-shadow: var(--shadow-4);
+        }
+
+        .features-style-one .features-icon {
+            position: relative;
+            display: inline-block;
+            z-index: 1;
+            height: 100px;
+            width: 100px;
+            line-height: 100px;
+            text-align: center;
+            font-size: 40px;
+            color: var(--primary);
+            border: 2px solid rgba(187, 187, 187, 0.192);
+            border-radius: 50%;
+            -webkit-transition: all 0.3s ease-out 0s;
+            -moz-transition: all 0.3s ease-out 0s;
+            -ms-transition: all 0.3s ease-out 0s;
+            -o-transition: all 0.3s ease-out 0s;
+            transition: all 0.3s ease-out 0s;
+        }
+
+        @media (max-width: 767px) {
+            .features-style-one .features-icon {
+                height: 70px;
+                width: 70px;
+                line-height: 70px;
+                font-size: 35px;
+            }
+        }
+
+        .features-style-one:hover .features-icon {
+            border-color: transparent;
+            color: var(--white);
+        }
+
+        .features-style-one .features-content {
+            margin-top: 24px;
+        }
+
+        .features-style-one .features-title {
+            font-size: 26px;
+            line-height: 35px;
+            font-weight: 600;
+            color: var(--black);
+            -webkit-transition: all 0.3s ease-out 0s;
+            -moz-transition: all 0.3s ease-out 0s;
+            -ms-transition: all 0.3s ease-out 0s;
+            -o-transition: all 0.3s ease-out 0s;
+            transition: all 0.3s ease-out 0s;
+        }
+
+        @media only screen and (min-width: 992px) and (max-width: 1199px),
+        (max-width: 767px) {
+            .features-style-one .features-title {
+                font-size: 22px;
+            }
+        }
+
+        .features-style-one .text {
+            color: var(--dark-3);
+            margin-top: 16px;
+        }
+
+        .features-style-one .features-btn {
+            margin-top: 32px;
+        }
+
         a {
             text-decoration: none !important;
         }
@@ -20,7 +165,7 @@
         .active.primary-btn,
         .primary-btn:hover,
         .primary-btn:focus {
-            background: var(--primary-dark);
+            background: white;
             color: var(--white);
             box-shadow: var(--shadow-4);
         }
@@ -50,7 +195,7 @@
         }
 
         .navbar-one {
-            background: var(--primary);
+            background: white;
         }
 
         /* @media only screen and (min-width: 768px) and (max-width: 991px),
@@ -68,7 +213,7 @@
         .navbar-one .navbar .navbar-toggler .toggler-icon {
             width: 30px;
             height: 2px;
-            background-color: var(--white);
+            background-color: #467326;
             margin: 5px 0;
             display: block;
             position: relative;
@@ -108,7 +253,7 @@
                 top: 140%;
                 left: 0;
                 width: 100%;
-                background-color: var(--primary);
+                background-color: white;
                 z-index: 8;
                 padding: 10px 0;
                 border-radius: 0 0 5px 5px;
@@ -125,7 +270,7 @@
             line-height: 24px;
             font-weight: 600;
             padding: 28px 15px;
-            color: var(--white);
+            color: #467326;
             text-transform: capitalize;
             position: relative;
             display: flex;
@@ -145,7 +290,7 @@
             bottom: 0;
             height: 100%;
             width: 0%;
-            background-color: var(--white);
+            background-color: #A0D94A;
             opacity: 0;
             visibility: hidden;
             z-index: -1;
@@ -281,7 +426,7 @@
             padding: 8px 24px;
             font-weight: 500;
             position: relative;
-            color: var(--dark);
+            color: #467326;
             -webkit-transition: all 0.3s ease-out 0s;
             -moz-transition: all 0.3s ease-out 0s;
             -ms-transition: all 0.3s ease-out 0s;
@@ -293,7 +438,7 @@
         }
 
         .navbar-one .navbar .navbar-nav .nav-item .sub-menu li a:hover {
-            background-color: var(--primary);
+            background-color: #467326;
             color: var(--white);
         }
 
@@ -304,12 +449,12 @@
         @media only screen and (min-width: 768px) and (max-width: 991px),
         (max-width: 767px) {
             .navbar-one .navbar .navbar-nav .nav-item .sub-menu li a:hover {
-                background-color: var(--primary-dark);
+                background-color: #467326;
                 color: var(--white);
             }
 
             .navbar-one .navbar .navbar-nav .nav-item .sub-menu li a i {
-                color: var(--primary-dark);
+                color: #467326;
                 -webkit-transition: all 0.3s ease-out 0s;
                 -moz-transition: all 0.3s ease-out 0s;
                 -ms-transition: all 0.3s ease-out 0s;
@@ -318,7 +463,7 @@
             }
 
             .navbar-one .navbar .navbar-nav .nav-item .sub-menu li a:hover i {
-                color: var(--white);
+                color: #467326;
             }
         }
 
@@ -398,7 +543,7 @@
                 font-size: 16px;
                 background: none;
                 border: 0;
-                color: var(--white);
+                color: #467326;
             }
         }
 
@@ -445,7 +590,7 @@
 
         .navbar-one .navbar .navbar-btn ul li a.primary-btn {
             background-color: var(--white);
-            color: var(--primary);
+            color: #467326;
             border-color: var(--white);
         }
 
@@ -454,21 +599,43 @@
             color: var(--white);
         }
     </style>
-    <title>MyPurchase</title>
-    <link rel="stylesheet" href="https://cdn.ayroui.com/1.0/css/bootstrap.min.css" />
-    <link href="https://cdn.lineicons.com/3.0/lineicons.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdn.ayroui.com/1.0/css/starter.css" />
+
 </head>
 
 <body>
+
+    <div class="modal fade" tabindex="-1" id="forgot-pass" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Change Password</h5>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="" class="form-label">New password</label>
+                        <input type="hidden" class="form-control" id="user_id" value="<?php echo $_SESSION['user_id'] ?>" />
+                        <input type="email" class="form-control" id="n_pass" />
+                    </div>
+                    <div class="mb-3">
+                        <label for="" class="form-label">Confirm password</label>
+                        <input type="password" class="form-control" id="c_pass" />
+                    </div>
+                    <div class="text-end">
+                        <button type="button" name="confirm" class="btn btn-primary btn-change-pass">Confirm</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
     <section class="navbar-area navbar-one">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
                     <nav class="navbar navbar-expand-lg">
-                        <a class="navbar-brand" href="javascript:void(0)">
-                            <img src="../logo.png" alt="Logo" width="90" height="60" />
+                        <a class="navbar-brand" href="index.php">
+                            <img src="../logo.png" alt="Logo" width="150" height="80" />
                         </a>
                         <button
                             class="navbar-toggler"
@@ -488,10 +655,7 @@
                                     <a href="index.php">Home</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="javascript:void(0)">Products</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="testimonial.php">Ratings</a>
+                                    <a href="products.php">Products</a>
                                 </li>
                                 <li class="nav-item">
                                     <a
@@ -510,7 +674,8 @@
                                     <ul class="sub-menu collapse" id="sub-nav1">
                                         <li><a href="cart.php">Cart</a></li>
                                         <li><a href="purchase.php">My purchase</a></li>
-                                        <li><a href="javascript:void(0)">Logout</a></li>
+                                        <li><a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#forgot-pass">Change password</a></li>
+                                        <li><a href="../logout.php">Logout</a></li>
                                         <!-- <li>
                                             <a
                                                 class="page-scroll"
@@ -559,8 +724,53 @@
         </div>
         <!-- container -->
     </section>
-    <script src="https://cdn.ayroui.com/1.0/js/bootstrap.bundle.min.js"></script>
 
+    <script src="https://cdn.ayroui.com/1.0/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <script>
+        $('.btn-change-pass').on('click', function(event) {
+            event.preventDefault();
+
+            const npass = $('#n_pass').val();
+            const cpass = $('#c_pass').val();
+            const user_id = $('#user_id').val();
+
+            if (npass != cpass) {
+                alert('Password and confirm password do not match');
+                return;
+            }
+            if (npass == "" || cpass == "") {
+                alert('Password required');
+                return;
+            }
+
+            $.ajax({
+                url: '../../database/signin.php',
+                method: 'POST',
+                data: {
+                    'confirm_newpass': true,
+                    cpass: cpass,
+                    user_id: user_id
+                },
+                success: function(response) {
+                    Swal.fire({
+                        title: "Password updated",
+                        icon: "success",
+                        confirmButtonText: "OK"
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.reload();
+                        }
+                    });
+                },
+                error: function(xhr, status, error) {
+                    console.error(error);
+                }
+            });
+        });
+    </script>
     <script>
         let navbarTogglerOne = document.querySelector(
             ".navbar-one .navbar-toggler"
@@ -569,6 +779,3 @@
             navbarTogglerOne.classList.toggle("active");
         });
     </script>
-</body>
-
-</html>

@@ -2,13 +2,11 @@
 require_once('../../database/Classes/Users.php');
 
 use Classes\Users;
-
 $users = new Users();
 
 if (isset($_POST['id'])) {
     try {
         $id = intval($_POST['id']);
-        $items = $users->user_show_items_by_category($id);
         $items = $users->user_show_items_price($id);
     } catch (Exception $e) {
         $e->getMessage();
@@ -16,7 +14,6 @@ if (isset($_POST['id'])) {
 } else {
     echo "Invalid ID provided.";
 }
-
 ?>
 
 <?php if (!empty($items)) : ?>
@@ -40,9 +37,6 @@ if (isset($_POST['id'])) {
                             </h4>
                             <p class="text">
                                 &#8369; <?= number_format(htmlspecialchars($rows['price'], ENT_QUOTES, 'UTF-8'), 2) ?>
-                            </p>
-                            <p class="text">
-                                Short description for the ones who look for something new
                             </p>
                         </div>
                     </div>

@@ -12,7 +12,7 @@ if ($stmt) {
 } else {
     echo "Error: " . $db->error;
 } ?>
- <nav aria-label="breadcrumb" class="breadcrumb--custom--style">
+<nav aria-label="breadcrumb" class="breadcrumb--custom--style">
     <ol class="breadcrumb">
         <li class="breadcrumb-item">
             <a href="#" data-bs-toggle="modal" data-bs-target="#add_item">Add Item</a>
@@ -22,51 +22,6 @@ if ($stmt) {
         </li>
     </ol>
 </nav>
-<!--
-<ul class="nav nav-tabs" role="tablist">
-    <?php foreach ($stmt1 as $rows) : ?>
-        <button type="button" data-id="<?= $rows['c_id'] ?>" class="btn btn-outline-discovery" style="border-radius: 0;"><?= $rows['cat'] ?></button>
-    <?php endforeach; ?>
-</ul>
-<div class="tab-content pt-5" id="tab-content">
-    <div class="tab-pane active" id="disabled-tabpanel-0" role="tabpanel" aria-labelledby="disabled-tab-0">
-        <div class="cards datadist" style="height: 90dvh; overflow:scroll;">
-            <?php if (!empty($items)) : ?>
-                <?php foreach ($items as $rows) : ?>
-                    <div class="card" style="width: 14rem; display: inline-block; margin:1px;">
-                        <div class="card-items">
-
-                            <?php
-                            $images = json_decode($rows['img'], true);
-                            if (!empty($images) && is_array($images)) {
-                                $firstImage = $images[0];
-                            ?>
-
-                                <img src="../../uploads/<?= htmlspecialchars($firstImage) ?>" class="card-img-top" alt="green iguana" style="object-fit: contain; aspect-ratio: 3/2;" />
-
-                            <?php } else { ?>
-                                <img style="height: 200px; object-fit:contain; aspect-ratio: 3/2" src="../uploads/default.jpg" class="card-img-top" alt="default image" />
-                            <?php } ?>
-
-
-                            <div class="card-body">
-                                <h4><?php echo $rows['name'] ?></h4>
-                                <h4 style="font-size: 14px; color:red ">₱<?php echo $rows['price'] ?></h4>
-                                <div>
-                                    <button class="btn btn-primary itemid" type="button" data-itemid="<?= $rows['i_img'] ?>">Update</button>
-
-                                    <button class="btn btn-link" style="color: red;" type="button" onclick="deleteItem('<?php echo $rows['i_img']; ?>')">Remove</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                <?php endforeach; ?>
-            <?php else : ?>
-                <p>No products available.</p>
-            <?php endif; ?>
-        </div>
-    </div>
-</div> -->
 
 <br>
 <div class="table-responsive">
@@ -116,7 +71,7 @@ if ($stmt) {
                         <td>
                             <button class="btn-primary itemid" type="button" data-itemid="<?= $rows['i_img'] ?>">Update</button>
 
-                            <button class="btn-link" style="color: red;" type="button" onclick="deleteItem('<?php echo $rows['i_img']; ?>')">Remove</button>
+                            <button class="btn-link delete_item" style="color: red;" type="button" data-itemid="<?= $rows['i_img'] ?>">Remove</button>
                         </td>
                     </tr>
                 <?php endforeach; ?>
@@ -127,12 +82,35 @@ if ($stmt) {
     </table>
 </div>
 
-<?php
-include('admin-footer.php');
-include('load-modals.php');
-?>
-
 <script>
+    $(document).on('click', '.delete_item', function() {
+        const itemId = $(this).data('itemid');
+        if (confirm('Are you sure you want to delete this item?')) {
+            $.ajax({
+                url: '../../database/additem.php',
+                type: 'POST',
+                data: {
+                    delete_item: true,
+                    item_id: itemId
+                },
+                success: function(response) {
+                    if (response.success) {
+                        alert('Item deleted successfully.');
+                        location.reload(); 
+                    } else {
+                        alert('Error deleting item: ' + response.message);
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error deleting item:', error);
+                    alert('An error occurred while deleting the item.');
+                }
+            });
+        }
+    });
+
+
+
     $(document).ready(function() {
         $('.btn-outline-discovery').on('click', function() {
             var id = $(this).data('id');
@@ -181,6 +159,8 @@ include('load-modals.php');
                         $('.price').val(value['price']);
                         $('#categories').val(value['category']);
                         $('#desc').val(value['des']);
+                        $('#quantity').val(value['quantity']);
+                        $('#item_id').val(value['i_img']);
 
                         const images = JSON.parse(value['img']);
                         $('#imagePreview').html('');

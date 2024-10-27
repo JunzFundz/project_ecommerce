@@ -5,28 +5,6 @@ use Classes\Admin;
 
 $admin = new Admin();
 
-
-// if (isset($_POST['accept'])) {
-
-//     $order_token =  $_POST['order_token'];
-//     $order_track = $_POST['order_track'];
-//     $total = $_POST['total'];
-//     $user_id = $_POST['user_id'];
-//     $quantities = $_POST['quantities'];
-//     $variants = $_POST['variants'];
-//     $items = $_POST['items'];
-
-//     $transaction = $admin->start_transaction(
-//         $order_token,
-//         $order_track,
-//         $total,
-//         $user_id,
-//         $quantities,
-//         $variants,
-//         $items
-//     );
-// }
-
 if (isset($_POST['show_ordered'])) {
 
     $track = $_POST['track'];
@@ -91,7 +69,7 @@ if (isset($_POST['show_ordered'])) {
                         <th scope="row"><?= $index + 1 ?></th>
                         <td><?= $items[$index] ?></td>
                         <td><?= $variant ?></td>
-                        <td><?= $quantityOrdered ?></td>
+                        <td>x<?= $quantityOrdered ?></td>
                         <td><?= number_format($itemPrice, 2) ?></td>
                         <td><?= number_format($total, 2) ?></td>
                     </tr>
@@ -127,12 +105,9 @@ if (isset($_POST['show_ordered'])) {
 } ?>
 
 
-
-
 <script>
     $(document).ready(function() {
         $('.accept_order').on('click', function() {
-
             const order_token = $(this).data('order_token');
             const order_track = $(this).data('order_track');
             const total = $(this).data('total');
@@ -166,7 +141,7 @@ if (isset($_POST['show_ordered'])) {
                 type: 'POST',
                 data: dataToSend,
                 success: function(response) {
-                    console.log(response);
+                    window.location.reload();
                 },
                 error: function(xhr, status, error) {
                     console.error('Error accepting order:', error);

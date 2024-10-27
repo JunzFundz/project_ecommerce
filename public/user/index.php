@@ -7,14 +7,11 @@ $mobile = $_SESSION['mobile'];
 require_once('../../database/user_show_data.php');
 ?>
 
-
-
-<?php include 'header.php' ?>
+<?php include('header.php') ?>
 
 <style>
     .slider-three {
-        background-color: var(--light-2);
-        padding-top: 60px;
+        padding-top: 10px;
         padding-bottom: 70px;
     }
 
@@ -76,8 +73,9 @@ require_once('../../database/user_show_data.php');
 
     .slider-three .single-items-one img {
         width: 100%;
-        box-shadow: var(--shadow-2);
         border-radius: 10px;
+        object-fit: cover;
+        aspect-ratio: 3/2;
     }
 
     .single-card {
@@ -90,6 +88,12 @@ require_once('../../database/user_show_data.php');
         -ms-transition: all 0.3s ease-out 0s;
         -o-transition: all 0.3s ease-out 0s;
         transition: all 0.3s ease-out 0s;
+        background: rgba(255, 255, 255, 0.61);
+        border-radius: 16px;
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        backdrop-filter: blur(7.6px);
+        -webkit-backdrop-filter: blur(7.6px);
+        border: 1px solid rgba(255, 255, 255, 0.77);
     }
 
     .single-card:hover {
@@ -127,6 +131,62 @@ require_once('../../database/user_show_data.php');
         color: var(--dark-3);
         margin-top: 8px;
     }
+
+    /* From Uiverse.io by nikk7007 */
+    .button-style {
+        padding: 0.9em 1.7em;
+        background-color: transparent;
+        border-radius: 3em;
+        position: relative;
+        overflow: hidden;
+        cursor: pointer;
+        transition: .5s;
+        font-weight: 400;
+        font-size: 17px;
+        border: 1px solid;
+        font-family: inherit;
+        text-transform: uppercase;
+        color: black;
+        z-index: 1;
+    }
+
+    .button-style::before,
+    .button-style::after {
+        content: '';
+        display: block;
+        width: 50px;
+        height: 50px;
+        transform: translate(-50%, -50%);
+        position: absolute;
+        border-radius: 50%;
+        z-index: -1;
+        background-color: #467326;
+        transition: 1s ease;
+    }
+
+    .button-style::before {
+        top: -1em;
+        left: -1em;
+    }
+
+    .button-style::after {
+        left: calc(100% + 1em);
+        top: calc(100% + 1em);
+    }
+
+    .button-style:hover::before,
+    .button-style:hover::after {
+        height: 410px;
+        width: 410px;
+    }
+
+    .button-style:hover {
+        color: white;
+    }
+
+    .button-style:active {
+        filter: brightness(.8);
+    }
 </style>
 
 <link rel="stylesheet" href="https://cdn.ayroui.com/1.0/css/tiny-slider.css" />
@@ -135,13 +195,6 @@ require_once('../../database/user_show_data.php');
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-lg-6">
-                <div class="section-title text-center">
-                    <h3 class="title">Friendly & Easy</h3>
-                    <p class="text">
-                        Stop wasting time and money designing and managing a website
-                        that doesn’t get results. Happiness guaranteed!
-                    </p>
-                </div>
             </div>
         </div>
         <!-- row -->
@@ -150,25 +203,25 @@ require_once('../../database/user_show_data.php');
             <div class="row slider-items-active">
                 <div class="col-lg-4">
                     <div class="single-items-one">
-                        <img src="https://cdn.ayroui.com/1.0/images/slider/slider-items-one.jpg" alt="Image" />
+                        <img src="../img/l1.JPG" alt="Image" />
                     </div>
                     <!-- single-items-one -->
                 </div>
                 <div class="col-lg-4">
                     <div class="single-items-one">
-                        <img src="https://cdn.ayroui.com/1.0/images/slider/slider-items-two.jpg" alt="Image" />
+                        <img src="../img/l2.JPG" alt="Image" />
                     </div>
                     <!-- single-items-one -->
                 </div>
                 <div class="col-lg-4">
                     <div class="single-items-one">
-                        <img src="https://cdn.ayroui.com/1.0/images/slider/slider-items-three.jpg" alt="Image" />
+                        <img src="../img/l3.JPG" alt="Image" />
                     </div>
                     <!-- single-items-one -->
                 </div>
                 <div class="col-lg-4">
                     <div class="single-items-one">
-                        <img src="https://cdn.ayroui.com/1.0/images/slider/slider-items-two.jpg" alt="Image" />
+                        <img src="../img/l4.JPG" alt="Image" />
                     </div>
                     <!-- single-items-one -->
                 </div>
@@ -179,10 +232,11 @@ require_once('../../database/user_show_data.php');
     <!-- container -->
 </section>
 
-<div class="group-buttons justify-content-center" style="display: flex; flex-wrap: wrap; padding-top: 50px">
+<h4 class="text-center">Categories</h4>
+<div class="group-buttons justify-content-center cat-style" style="display: flex; flex-wrap: wrap; padding-top: 20px">
     <div class="">
         <?php foreach ($cat as $rows) : ?>
-            <a data-id="<?= htmlspecialchars($rows['c_id'], ENT_QUOTES, 'UTF-8') ?>" class="btn primary-btn btn-click-on"><?= htmlspecialchars($rows['cat'], ENT_QUOTES, 'UTF-8') ?></a>
+            <a data-id="<?= htmlspecialchars($rows['c_id'], ENT_QUOTES, 'UTF-8') ?>" class="button-style btn-click-on" style="padding: 5px;"><?= htmlspecialchars($rows['cat'], ENT_QUOTES, 'UTF-8') ?></a>
         <?php endforeach; ?>
     </div>
 </div>
@@ -192,7 +246,7 @@ require_once('../../database/user_show_data.php');
         <?php if (!empty($items)) : ?>
             <div class="row justify-content-center">
                 <?php foreach ($items as $rows) : ?>
-                    <div class="col-lg-3 col-sm-6 ">
+                    <div class="col-lg-3 col-sm-6 card-bg">
                         <a href="item.php?item=<?= htmlspecialchars($rows['i_img']) ?>" style="color: black; text-decoration: none">
                             <div class="single-card card-style-one">
                                 <div class="card-image">
@@ -210,9 +264,6 @@ require_once('../../database/user_show_data.php');
                                     </h4>
                                     <p class="text">
                                         &#8369; <?= number_format(htmlspecialchars($rows['price'], ENT_QUOTES, 'UTF-8'), 2) ?>
-                                    </p>
-                                    <p class="text">
-                                        Short description for the ones who look for something new
                                     </p>
                                 </div>
                             </div>

@@ -4,13 +4,10 @@
         background-color: var(--light-2);
     }
 
-    .footer-one .footer-logo {
-        margin-top: 30px;
-    }
 
     .footer-one .footer-widget {
-        padding-top: 70px;
-        padding-bottom: 100px;
+        padding-top: 40px;
+        padding-bottom: 50px;
     }
 
     @media only screen and (min-width: 768px) and (max-width: 991px) {
@@ -216,79 +213,32 @@
     }
 </style>
 
-
-<!--====== FOOTER ONE PART START ======-->
 <footer class="footer-area footer-one">
     <div class="footer-widget">
         <div class="container">
             <div class="row">
-                <div class="col-xl-6 col-lg-4 col-sm-12">
+                <div class="col-xl-6 col-lg col-sm-12">
                     <div class="f-about">
                         <div class="footer-logo">
                             <a href="javascript:void(0)">
-                                <img src="https://cdn.ayroui.com/1.0/images/footer/logo.svg" alt="Logo" />
+                                <img src="../logo.png" alt="Logo" width="150" height="80">
                             </a>
                         </div>
                         <p class="text">
-                            Lorem Ipsum is simply dummy text of the printing and
-                            typesetting industry.
+                            Imported quality goods and general merchandise.
                         </p>
                     </div>
-                    <div class="footer-app-store">
-                        <h5 class="download-title">Download Our App Now!</h5>
-                        <ul>
-                            <li>
-                                <a href="javascript:void(0)">
-                                    <img
-                                        src="https://cdn.ayroui.com/1.0/images/footer/app-store.svg"
-                                        alt="app" />
-                                </a>
-                            </li>
-                            <li>
-                                <a href="javascript:void(0)">
-                                    <img
-                                        src="https://cdn.ayroui.com/1.0/images/footer/play-store.svg"
-                                        alt="play" />
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
                 </div>
-                <div class="col-xl-2 col-lg-2 col-sm-4">
-                    <div class="footer-link">
-                        <h6 class="footer-title">Company</h6>
-                        <ul>
-                            <li><a href="javascript:void(0)">About</a></li>
-                            <li><a href="javascript:void(0)">Contact</a></li>
-                            <li><a href="javascript:void(0)">Marketing</a></li>
-                            <li><a href="javascript:void(0)">Awards</a></li>
-                        </ul>
-                    </div>
-                    <!-- footer link -->
-                </div>
-                <div class="col-xl-2 col-lg-3 col-sm-4">
-                    <div class="footer-link">
-                        <h6 class="footer-title">Services</h6>
-                        <ul>
-                            <li><a href="javascript:void(0)">Products</a></li>
-                            <li><a href="javascript:void(0)">Business</a></li>
-                            <li><a href="javascript:void(0)">Developer</a></li>
-                            <li><a href="javascript:void(0)">Insights</a></li>
-                        </ul>
-                    </div>
-                    <!-- footer link -->
-                </div>
-                <div class="col-xl-2 col-lg-3 col-sm-4">
+                <div class="col-xl-6 col-lg-3 col-sm-12">
                     <!-- Start Footer Contact -->
                     <div class="footer-contact">
-                        <h6 class="footer-title">Help & Suuport</h6>
+                        <h6 class="footer-title">Help & Support</h6>
                         <ul>
                             <li>
-                                <i class="lni lni-map-marker"></i> Madison Street, NewYork,
-                                USA
+                                <i class="lni lni-map-marker"></i> Dumaguete City PHILIPPINES
                             </li>
-                            <li><i class="lni lni-phone-set"></i> +88 556 88545</li>
-                            <li><i class="lni lni-envelope"></i> support@ayroui.com</li>
+                            <li><i class="lni lni-phone-set"></i> +63 9262660362</li>
+                            <li><i class="lni lni-envelope"></i> juliusrayaranas8@gmail.com </li>
                         </ul>
                     </div>
                     <!-- End Footer Contact -->
@@ -311,35 +261,21 @@
                   justify-content-between
                   align-items-center
                   ">
-                        <p class="text">Copyright © 2024 AyroUI. All Rights Reserved</p>
+                        <p class="text">Copyright © 2024 ZL Collection. All Rights Reserved</p>
                         <ul class="social">
                             <li>
-                                <a href="javascript:void(0)">
+                                <a href="https://www.facebook.com/juliusaranasvp">
                                     <i class="lni lni-facebook-filled"></i>
                                 </a>
                             </li>
-                            <li>
-                                <a href="javascript:void(0)">
-                                    <i class="lni lni-twitter-original"></i>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="javascript:void(0)">
-                                    <i class="lni lni-instagram-filled"></i>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="javascript:void(0)"><i class="lni lni-linkedin-original"></i></a>
-                            </li>
                         </ul>
                     </div>
-                    <!-- copyright -->
                 </div>
             </div>
-            <!-- row -->
         </div>
-        <!-- container -->
     </div>
-    <!-- footer copyright -->
 </footer>
-<!--====== FOOTER ONE PART ENDS ======-->
+
+</body>
+
+</html>
