@@ -28,7 +28,7 @@ if (isset($_POST['signin'])) {
             if ($user['user_id'] === 120) {
                 header("Location: ../public/admin/");
             } else {
-                header("Location: ../public/user/");
+                header("Location: ../public/user/products.php");
             }
             exit();
         } else {

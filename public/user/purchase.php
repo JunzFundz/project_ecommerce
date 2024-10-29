@@ -87,6 +87,12 @@ require_once('../../database/user.php');
                                         RATE IT
                                     </a>
                                 </div>
+                            <?php } else if ($rows['order_status'] == 6) { ?>
+                                <div class="features-btn rounded-buttons">
+                                    <a class="btn primary-btn-outline rounded-full" href="track.php?token=<?php echo $_SESSION['order_token'] ?>">
+                                        VIEW STATUS
+                                    </a>
+                                </div>
                             <?php } else { ?>
                                 <div class="features-btn rounded-buttons">
                                     <a class="btn primary-btn-outline rounded-full" href="track.php?token=<?php echo $_SESSION['order_token'] ?>">
@@ -129,11 +135,11 @@ require_once('../../database/user.php');
                         $('#rate-session').val(response.session);
                         $('#addrating').modal('show');
                     } else {
-                        console.error('Failed to retrieve data.');
+                        alert('Failed to retrieve data.');
                     }
                 },
                 error: function(xhr, status, error) {
-                    console.error('An error occurred: ' + status + ' - ' + error);
+                    alert('An error occurred: ' + status + ' - ' + error);
                 }
             });
         });
@@ -182,8 +188,6 @@ require_once('../../database/user.php');
         var session = $('#rate-session').val();
         var image = $('#file_img')[0].files[0];
 
-        console.log(user_id, item_id, insight);
-
         var formData = new FormData();
         formData.append('submit_rate', true);
         formData.append('item_rate_data', item_rate_data);
@@ -191,14 +195,14 @@ require_once('../../database/user.php');
         formData.append('user_id', user_id);
         formData.append('session', session);
         formData.append('insight', insight);
-        formData.append('image', image); 
+        formData.append('image', image);
 
         $.ajax({
             url: '../../database/user.php',
             type: 'POST',
             data: formData,
-            processData: false, 
-            contentType: false, 
+            processData: false,
+            contentType: false,
             success: function(response) {
                 Swal.fire({
                     title: "Success",

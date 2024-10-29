@@ -281,4 +281,25 @@ class Admin extends Connection
             throw new Exception("An error occurred. Please try again later.");
         }
     }
+
+    public function handleCancelOrder($track, $token_in_order, $order_id)
+    {
+        try {
+            $stmt = $this->getPdo()->prepare(
+                "UPDATE orders 
+                SET order_status = 6 
+                WHERE tracking_number = :track AND order_token = :token_in_order AND order_id = :order_id"
+            );
+
+            $stmt->bindParam(':track', $track, \PDO::PARAM_STR);
+            $stmt->bindParam(':token_in_order', $token_in_order, \PDO::PARAM_STR);
+            $stmt->bindParam(':order_id', $order_id, \PDO::PARAM_INT);
+
+            $set = $stmt->execute();
+            return $set;
+        } catch (\PDOException $e) {
+            error_log("Database query error: " . $e->getMessage());
+            throw new Exception("An error occurred. Please try again later.");
+        }
+    }
 }

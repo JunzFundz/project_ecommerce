@@ -99,14 +99,36 @@ if (isset($_POST['show_ordered'])) {
             data-item="<?= $rows['item_id_ordered']; ?>"
             data-variants="<?= $rows['variant_id_ordered']; ?>">Accept</button>
 
-        <button type="button" class="btn btn-danger" style="float: right; padding: 5px; margin-right: 10px">Cancel order?</button>
+        <button type="button" class="btn btn-danger btn_cancel_order" style="float: right; padding: 5px; margin-right: 10px"
+            data-track="<?= $rows['tracking_number'] ?>"
+            data-token_in_order="<?= $rows['order_token'] ?>"
+            data-order_id="<?= $rows['order_id'] ?>">Cancel order?</button>
 <?php
     endforeach;
 } ?>
 
-
 <script>
     $(document).ready(function() {
+        $('.btn_cancel_order').on('click', function() {
+            const track = $(this).data('track');
+            const token_in_order = $(this).data('token_in_order');
+            const order_id = $(this).data('order_id');
+
+            $.ajax({
+                url: '../../database/accept.php',
+                method: 'POST',
+                data: {
+                    'cancel_order': true,
+                    'track': track,
+                    'token_in_order': token_in_order,
+                    'order_id': order_id
+                },
+                success: function(response) {
+                    window.location.reload();
+                }
+            });
+        });
+
         $('.accept_order').on('click', function() {
             const order_token = $(this).data('order_token');
             const order_track = $(this).data('order_track');

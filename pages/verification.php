@@ -114,7 +114,6 @@
 </head>
 
 <body>
-    <!--====== ERROR PART START ======-->
     <section class="error-area error-one">
         <div class="container">
             <div class="row justify-content-center">

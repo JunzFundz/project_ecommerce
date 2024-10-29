@@ -15,8 +15,8 @@
 
     <style>
         body {
-            background: rgb(245, 255, 245);
-            background: linear-gradient(77deg, rgba(245, 255, 245, 1) 50%, rgba(179, 255, 125, 1) 100%);
+            background: rgb(255,255,255);
+            background: linear-gradient(24deg, rgba(255,255,255,1) 0%, rgba(227,132,132,1) 100%); 
         }
 
         .yellow-star {
@@ -633,7 +633,7 @@
                                     <a href="index.php">Home</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#login">Sign in</a>
+                                    <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#login">Order here</a>
                                 </li>
                                 <li class="nav-item">
                                     <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#forgot-pass">Forgot Password</a>

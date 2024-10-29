@@ -499,5 +499,4 @@ class Users extends Connection
             throw new Exception("Failed to update cart: " . $e->getMessage());
         }
     }
-
 }

@@ -54,18 +54,20 @@ $orders = $admin->orders();
                             </span>
                         </td>
                         <td>
-                            <button class="btn-primary view_ordered" type="button" data-track="<?= $rows['tracking_number'] ?>" 
-                            data-token_in_order="<?= $rows['order_token'] ?>" 
-                            data-variant="<?= $rows['variants_ordered_in'] ?>" data-order_id="<?= $rows['order_id'] ?>"
-                            data-total_quantity="<?= $rows['quantity_ordered'] ?>"
-                            >&#9998;</button>
+                            <button class="btn-primary view_ordered" type="button" data-track="<?= $rows['tracking_number'] ?>"
+                                data-token_in_order="<?= $rows['order_token'] ?>"
+                                data-variant="<?= $rows['variants_ordered_in'] ?>" data-order_id="<?= $rows['order_id'] ?>"
+                                data-total_quantity="<?= $rows['quantity_ordered'] ?>">&#9998;</button>
 
-                            <button class="btn-link" style="color: red;" type="button" onclick="deleteItem('<?php echo $rows['item']; ?>')">cancel</button>
+                            <button class="btn-link btn_cancel_order" style="color: red;" type="button"
+                                data-track="<?= $rows['tracking_number'] ?>"
+                                data-token_in_order="<?= $rows['order_token'] ?>"
+                                data-order_id="<?= $rows['order_id'] ?>">cancel</button>
                         </td>
                     </tr>
                 <?php endforeach; ?>
             <?php else : ?>
-                <p>No products available.</p>
+                <p>No order available.</p>
             <?php endif; ?>
         </tbody>
     </table>
@@ -73,27 +75,45 @@ $orders = $admin->orders();
 
 <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 <script>
-$(document).ready(function() {
-    $('.view_ordered').on('click', function() {
-        const track = $(this).data('track');
-        const token_in_order = $(this).data('token_in_order');  
+    $(document).ready(function() {
+        $('.view_ordered').on('click', function() {
+            const track = $(this).data('track');
+            const token_in_order = $(this).data('token_in_order');
 
-        console.log(track, token_in_order); 
-        $.ajax({
-            url: '../../database/admin.php',
-            method: 'POST',
-            data: {
-                'show_ordered': true,
-                'track': track,
-                'token_in_order': token_in_order
-            },
-            success: function(response) {
-                $('.modal-body').html(response);
-                $('#orders_modal').modal('show');
-            }
+            console.log(track, token_in_order);
+            $.ajax({
+                url: '../../database/admin.php',
+                method: 'POST',
+                data: {
+                    'show_ordered': true,
+                    'track': track,
+                    'token_in_order': token_in_order
+                },
+                success: function(response) {
+                    $('.modal-body').html(response);
+                    $('#orders_modal').modal('show');
+                }
+            });
         });
 
-    });
-});
+        $('.btn_cancel_order').on('click', function() {
+            const track = $(this).data('track');
+            const token_in_order = $(this).data('token_in_order');
+            const order_id = $(this).data('order_id');
 
+            $.ajax({
+                url: '../../database/accept.php',
+                method: 'POST',
+                data: {
+                    'cancel_order': true,
+                    'track': track,
+                    'token_in_order': token_in_order,
+                    'order_id': order_id
+                },
+                success: function(response) {
+                    window.location.reload();
+                }
+            });
+        });
+    });
 </script>

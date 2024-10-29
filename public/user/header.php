@@ -14,8 +14,8 @@
 
     <style>
         body {
-            background: rgb(255, 255, 255);
-            background: linear-gradient(80deg, rgba(255, 255, 255, 1) 9%, rgba(57, 207, 64, 1) 100%);
+            background: rgb(255,255,255);
+            background: linear-gradient(24deg, rgba(255,255,255,1) 0%, rgba(227,132,132,1) 100%); 
         }
 
         .yellow-star {
@@ -196,6 +196,9 @@
 
         .navbar-one {
             background: white;
+            -webkit-box-shadow: -4.5px 1px 16px 1.5px #dddddd;
+            -moz-box-shadow: -4.5px 1px 16px 1.5px #dddddd;
+            box-shadow: -4.5px 1px 16px 1.5px #dddddd;
         }
 
         /* @media only screen and (min-width: 768px) and (max-width: 991px),
@@ -601,8 +604,7 @@
     </style>
 
 </head>
-
-<body>
+<body oncontextmenu="return false;">
 
     <div class="modal fade" tabindex="-1" id="forgot-pass" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">

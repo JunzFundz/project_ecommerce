@@ -189,7 +189,8 @@ require_once('../database/user_show_data.php');
         font-family: "Poppins", sans-serif;
         font-weight: 500;
         font-size: clamp(14px, 2vw, 20px);
-        color: #467326;
+        color: white !important;
+        text-transform: uppercase;
     }
 </style>
 
@@ -215,7 +216,7 @@ require_once('../database/user_show_data.php');
                             name="number"
                             id="number"
                             pattern="^[0-9]{11}$"
-                            placeholder="Enter 10-digit mobile number"
+                            placeholder="Enter 11-digit mobile number"
                             maxlength="11"
                             required />
                     </div>
@@ -234,7 +235,7 @@ require_once('../database/user_show_data.php');
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Signin</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Order here</h5>
             </div>
             <div class="modal-body">
                 <form action="../database/signin.php" method="POST">
@@ -247,7 +248,7 @@ require_once('../database/user_show_data.php');
                         <input type="password" name="pass" class="form-control" id="exampleInputPassword1" />
                     </div>
                     <div class="text-end">
-                        <button type="submit" name="signin" class="btn btn-primary">Signin</button>
+                        <button type="submit" name="signin" class="btn btn-primary">Continue</button>
                     </div>
                 </form>
             </div>
@@ -262,7 +263,7 @@ require_once('../database/user_show_data.php');
                 <div class="section-title text-center">
                     <br>
                     <p class="text custom-text-style">
-                        Discover Korea! Bring out the best quality directly to You.
+                        We offer and provide authentic Korean products. Experience the best quality skincare and cosmetics made by one of the best technology in the world
                     </p>
                     <br>
                 </div>
@@ -276,13 +277,11 @@ require_once('../database/user_show_data.php');
                     <div class="single-items-one">
                         <img src="../public/img/l1.JPG" alt="Image" />
                     </div>
-                    <!-- single-items-one -->
                 </div>
                 <div class="col-lg-4">
                     <div class="single-items-one">
                         <img src="../public/img/l2.JPG" alt="Image" />
                     </div>
-                    <!-- single-items-one -->
                 </div>
                 <div class="col-lg-4">
                     <div class="single-items-one">

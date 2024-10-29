@@ -6,22 +6,21 @@ use Classes\Admin;
 $admin = new Admin();
 
 if (isset($_POST['action'])) {
-    // Sanitize and assign POST data
     $track = filter_input(INPUT_POST, 'track', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
     $token_in_order = filter_input(INPUT_POST, 'token_in_order', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
     $action = filter_input(INPUT_POST, 'action', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
     switch ($action) {
         case 'handed_over':
-            $result = $admin->handleHandedOver( $track, $token_in_order);
+            $result = $admin->handleHandedOver($track, $token_in_order);
             break;
 
         case 'on_the_way':
-            $result = $admin->handleOnTheWay( $track, $token_in_order);
+            $result = $admin->handleOnTheWay($track, $token_in_order);
             break;
 
         case 'delivered':
-            $result = $admin->handleDelivered( $track, $token_in_order);
+            $result = $admin->handleDelivered($track, $token_in_order);
             $result = $admin->set_tr_status($track, $token_in_order);
             break;
 
@@ -32,8 +31,6 @@ if (isset($_POST['action'])) {
 } else {
     echo 'Invalid action';
 }
-
-
 
 if (isset($_POST['accept_order'])) {
 
@@ -57,4 +54,13 @@ if (isset($_POST['accept_order'])) {
     }
     $transaction = $admin->start_transaction($order_token, $order_track, $total, $user_id);
     $update = $admin->set_one($order_token, $order_track, $user_id);
+}
+
+if (isset($_POST['cancel_order'])) {
+
+    $track =  $_POST['track'];
+    $token_in_order = $_POST['token_in_order'];
+    $order_id = $_POST['order_id'];
+
+    $update = $admin->handleCancelOrder($track, $token_in_order, $order_id);
 }

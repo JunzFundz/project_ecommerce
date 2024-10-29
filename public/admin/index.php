@@ -9,7 +9,6 @@ require_once('../../database/user_show_data.php');
 <?php include 'header.php' ?>
 
 <style>
-    /* tabs-one */
     .tabs-one {
         border: 1px solid var(--gray-4);
     }

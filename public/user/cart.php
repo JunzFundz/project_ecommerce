@@ -7,8 +7,8 @@ include('../../database/user_cart.php');
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
     body {
-        background: rgb(255, 255, 255);
-        background: linear-gradient(56deg, rgba(255, 255, 255, 1) 9%, rgba(57, 207, 64, 1) 100%);
+        background: rgb(255,255,255);
+        background: linear-gradient(24deg, rgba(255,255,255,1) 0%, rgba(227,132,132,1) 100%); 
         min-height: 100vh;
         vertical-align: middle;
         display: flex;
