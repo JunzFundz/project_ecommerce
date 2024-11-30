@@ -119,7 +119,6 @@
             <div class="row justify-content-center">
                 <div class="col-xxl-7 col-xl-8 col-lg-8">
                     <div class="error-content text-center">
-                        <span class="error-404">Verification</span>
                         <p class="text">
                             The code was send to your email
                         </p>
@@ -155,6 +154,18 @@
 
         if (npass !== cpass) {
             alert('Password and confirm password do not match');
+            return;
+        }
+        if (emmpty(cpass)) {
+            alert('Empty fields');
+            return;
+        }
+        if (emmpty(npass)) {
+            alert('Empty fields');
+            return;
+        }
+        if (emmpty(vr_code)) {
+            alert('Empty fields');
             return;
         }
 

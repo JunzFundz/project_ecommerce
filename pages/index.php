@@ -1,204 +1,14 @@
 <?php
 require_once('../database/user_show_data.php');
+include('header.php');
 ?>
 
-<?php include('header.php') ?>
-
-<style>
-    .slider-three {
-        padding-top: 10px;
-        padding-bottom: 70px;
-    }
-
-    .slider-three .section-title .title {
-        font-size: 44px;
-        line-height: 55px;
-        font-weight: 600;
-        color: var(--black);
-    }
-
-    @media (max-width: 767px) {
-        .slider-three .section-title .title {
-            font-size: 28px;
-            line-height: 32px;
-        }
-    }
-
-    .slider-three .section-title .text {
-        color: var(--dark-3);
-        margin-top: 24px;
-    }
-
-    .slider-three .slider-items-wrapper {
-        position: relative;
-    }
-
-    .slider-three .slider-items-wrapper .tns-nav {
-        width: 100%;
-        z-index: 2;
-        display: flex;
-        justify-content: center;
-        margin-top: 40px;
-    }
-
-    .slider-three .slider-items-wrapper .tns-nav button {
-        width: 10px;
-        height: 10px;
-        border-radius: 50px;
-        background-color: var(--primary);
-        opacity: 0.5;
-        border: 0;
-        margin: 0 5px;
-        -webkit-transition: all 0.4s ease-out 0s;
-        -moz-transition: all 0.4s ease-out 0s;
-        -ms-transition: all 0.4s ease-out 0s;
-        -o-transition: all 0.4s ease-out 0s;
-        transition: all 0.4s ease-out 0s;
-    }
-
-    .slider-three .slider-items-wrapper .tns-nav button.tns-nav-active {
-        width: 20px;
-        opacity: 1;
-        border-radius: 5px;
-    }
-
-    .slider-three .single-items-one {
-        margin-top: 40px;
-    }
-
-    .slider-three .single-items-one img {
-        width: 100%;
-        border-radius: 10px;
-        object-fit: cover;
-        aspect-ratio: 3/2;
-    }
-
-    .single-card {
-        box-shadow: var(--shadow-1);
-        border-radius: 8px;
-        overflow: hidden;
-        margin-top: 30px;
-        -webkit-transition: all 0.3s ease-out 0s;
-        -moz-transition: all 0.3s ease-out 0s;
-        -ms-transition: all 0.3s ease-out 0s;
-        -o-transition: all 0.3s ease-out 0s;
-        transition: all 0.3s ease-out 0s;
-        background: rgba(255, 255, 255, 0.61);
-        border-radius: 16px;
-        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-        backdrop-filter: blur(7.6px);
-        -webkit-backdrop-filter: blur(7.6px);
-        border: 1px solid rgba(255, 255, 255, 0.77);
-    }
-
-    .single-card:hover {
-        box-shadow: var(--shadow-4);
-    }
-
-    .single-card .card-image img {
-        object-fit: contain;
-        aspect-ratio: 3/2;
-        width: 70rem;
-    }
-
-    .single-card .card-content {
-        padding: 16px;
-    }
-
-    .single-card .card-content .card-title {
-        margin-bottom: 0;
-    }
-
-    .single-card .card-content .card-title a {
-        color: var(--black);
-        -webkit-transition: all 0.3s ease-out 0s;
-        -moz-transition: all 0.3s ease-out 0s;
-        -ms-transition: all 0.3s ease-out 0s;
-        -o-transition: all 0.3s ease-out 0s;
-        transition: all 0.3s ease-out 0s;
-    }
-
-    .single-card .card-content .card-title a:hover {
-        color: var(--primary);
-    }
-
-    .single-card .card-content .text {
-        color: var(--dark-3);
-        margin-top: 8px;
-    }
-
-    /* From Uiverse.io by nikk7007 */
-    .button-style {
-        padding: 0.9em 1.7em;
-        background-color: transparent;
-        border-radius: 3em;
-        position: relative;
-        overflow: hidden;
-        cursor: pointer;
-        transition: .5s;
-        font-weight: 400;
-        font-size: 17px;
-        border: 1px solid;
-        font-family: inherit;
-        text-transform: uppercase;
-        color: black;
-        z-index: 1;
-    }
-
-    .button-style::before,
-    .button-style::after {
-        content: '';
-        display: block;
-        width: 50px;
-        height: 50px;
-        transform: translate(-50%, -50%);
-        position: absolute;
-        border-radius: 50%;
-        z-index: -1;
-        background-color: #467326;
-        transition: 1s ease;
-    }
-
-    .button-style::before {
-        top: -1em;
-        left: -1em;
-    }
-
-    .button-style::after {
-        left: calc(100% + 1em);
-        top: calc(100% + 1em);
-    }
-
-    .button-style:hover::before,
-    .button-style:hover::after {
-        height: 410px;
-        width: 410px;
-    }
-
-    .button-style:hover {
-        color: white;
-    }
-
-    .button-style:active {
-        filter: brightness(.8);
-    }
-
-    @import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
-
-    .custom-text-style {
-        font-family: "Poppins", sans-serif;
-        font-weight: 500;
-        font-size: clamp(14px, 2vw, 20px);
-        color: white !important;
-        text-transform: uppercase;
-    }
-</style>
-
 <link rel="stylesheet" href="https://cdn.ayroui.com/1.0/css/tiny-slider.css" />
+<link rel="stylesheet" href="style.css">
 
 <div class="modal fade" tabindex="-1" id="forgot-pass" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content custom-modal-style">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Forgot Password</h5>
             </div>
@@ -232,8 +42,8 @@ require_once('../database/user_show_data.php');
 </div>
 
 <div class="modal fade" tabindex="-1" id="login" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
+    <div class="modal-dialog modal-dialog-centered ">
+        <div class="modal-content custom-modal-style">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Order here</h5>
             </div>
@@ -241,14 +51,15 @@ require_once('../database/user_show_data.php');
                 <form action="../database/signin.php" method="POST">
                     <div class="mb-3">
                         <label for="" class="form-label">Phone</label>
-                        <input type="text" class="form-control" name="mobile" />
+                        <input type="text" class="form-control id_mobile" name="mobile" />
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Password</label>
-                        <input type="password" name="pass" class="form-control" id="exampleInputPassword1" />
+                        <input type="password" name="pass" class="form-control id_pass" id="exampleInputPassword1" />
                     </div>
+
                     <div class="text-end">
-                        <button type="submit" name="signin" class="btn btn-primary">Continue</button>
+                        <button type="submit" name="signin" class="btn btn-primary signin-user">Continue</button>
                     </div>
                 </form>
             </div>
@@ -462,6 +273,32 @@ require_once('../database/user_show_data.php');
         $('.full-screen').toggleClass('icon-maximize');
         $('.full-screen').toggleClass('icon-minimize');
     }
+
+    // $('.signin-user').on('click', function(e) {
+    //     e.preventDefault();
+
+    //     const mobile = $('.id_mobile').val();
+    //     const pass = $('.id_pass').val();
+
+    //     console.log(mobile, pass)
+
+    //     $.ajax({
+    //         type: 'POST',
+    //         url: '../database/signin.php',
+    //         data: {
+    //             'signin': true,
+    //             mobile: mobile,
+    //             pass: pass
+    //         },
+    //         success: function(response) {
+    //             alert(response.message);
+    //         },
+    //         error: function(xhr, status, error) {
+    //             console.error('An error occurred: ' + status + ' - ' + error);
+    //         }
+
+    //     })
+    // });
 </script>
 
 <?php include 'footer.php' ?>

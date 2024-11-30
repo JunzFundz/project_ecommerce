@@ -14,8 +14,35 @@ if (isset($_POST['signin'])) {
     $mobile = filter_var($_POST['mobile'], FILTER_SANITIZE_NUMBER_INT);
     $pass = filter_var($_POST['pass'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
-    if (empty($mobile) || empty($pass)) {
-        die('Mobile and password cannot be empty');
+    function validate_inputs($mobile, $pass)
+    {
+        if (empty($mobile)) {
+            return 'Mobile number cannot be empty!';
+        }
+
+        if (empty($pass)) {
+            return 'Password cannot be empty!';
+        }
+
+        if (!ctype_digit($mobile)) {
+            return 'Mobile number must contain only digits!';
+        }
+
+        if (strlen($mobile) < 10 || strlen($mobile) > 15) {
+            return 'Mobile number must be between 10 to 15 digits!';
+        }
+
+        return true;
+    }
+
+    $validation_result = validate_inputs($mobile, $pass);
+
+    if ($validation_result !== true) {
+        echo '<script type="text/javascript">';
+        echo 'alert("' . $validation_result . '");';
+        echo 'window.location.href = "../pages/";';
+        echo '</script>';
+        exit();
     }
 
     $user = $insert->select($mobile);
@@ -32,7 +59,10 @@ if (isset($_POST['signin'])) {
             }
             exit();
         } else {
-            die('Incorrect password. Please try again.');
+            echo '<script type="text/javascript">';
+            echo 'alert("Incorrect Password");';
+            echo 'window.location.href = "../pages/" ';
+            echo '</script>';
         }
     } else {
         $hashed_pass = password_hash($pass, PASSWORD_DEFAULT);

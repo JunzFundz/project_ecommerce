@@ -1,0 +1,281 @@
+.slider-three {
+    padding-top: 10px;
+    padding-bottom: 70px;
+}
+
+.slider-three .section-title .title {
+    font-size: 44px;
+    line-height: 55px;
+    font-weight: 600;
+    color: var(--black);
+}
+
+@media (max-width: 767px) {
+    .slider-three .section-title .title {
+        font-size: 28px;
+        line-height: 32px;
+    }
+}
+
+.slider-three .section-title .text {
+    color: var(--dark-3);
+    margin-top: 24px;
+}
+
+.slider-three .slider-items-wrapper {
+    position: relative;
+}
+
+.slider-three .slider-items-wrapper .tns-nav {
+    width: 100%;
+    z-index: 2;
+    display: flex;
+    justify-content: center;
+    margin-top: 40px;
+}
+
+.slider-three .slider-items-wrapper .tns-nav button {
+    width: 10px;
+    height: 10px;
+    border-radius: 50px;
+    background-color: var(--primary);
+    opacity: 0.5;
+    border: 0;
+    margin: 0 5px;
+    -webkit-transition: all 0.4s ease-out 0s;
+    -moz-transition: all 0.4s ease-out 0s;
+    -ms-transition: all 0.4s ease-out 0s;
+    -o-transition: all 0.4s ease-out 0s;
+    transition: all 0.4s ease-out 0s;
+}
+
+.slider-three .slider-items-wrapper .tns-nav button.tns-nav-active {
+    width: 20px;
+    opacity: 1;
+    border-radius: 5px;
+}
+
+.slider-three .single-items-one {
+    margin-top: 40px;
+}
+
+.slider-three .single-items-one img {
+    width: 100%;
+    border-radius: 10px;
+    object-fit: cover;
+    aspect-ratio: 3/2;
+}
+
+.single-card {
+    box-shadow: var(--shadow-1);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-top: 30px;
+    -webkit-transition: all 0.3s ease-out 0s;
+    -moz-transition: all 0.3s ease-out 0s;
+    -ms-transition: all 0.3s ease-out 0s;
+    -o-transition: all 0.3s ease-out 0s;
+    transition: all 0.3s ease-out 0s;
+    background: rgba(255, 255, 255, 0.61);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(7.6px);
+    -webkit-backdrop-filter: blur(7.6px);
+    border: 1px solid rgba(255, 255, 255, 0.77);
+}
+
+.single-card:hover {
+    box-shadow: var(--shadow-4);
+}
+
+.single-card .card-image img {
+    object-fit: contain;
+    aspect-ratio: 3/2;
+    width: 70rem;
+}
+
+.single-card .card-content {
+    padding: 16px;
+}
+
+.single-card .card-content .card-title {
+    margin-bottom: 0;
+}
+
+.single-card .card-content .card-title a {
+    color: var(--black);
+    -webkit-transition: all 0.3s ease-out 0s;
+    -moz-transition: all 0.3s ease-out 0s;
+    -ms-transition: all 0.3s ease-out 0s;
+    -o-transition: all 0.3s ease-out 0s;
+    transition: all 0.3s ease-out 0s;
+}
+
+.single-card .card-content .card-title a:hover {
+    color: var(--primary);
+}
+
+.single-card .card-content .text {
+    color: var(--dark-3);
+    margin-top: 8px;
+}
+
+/* From Uiverse.io by nikk7007 */
+.button-style {
+    padding: 0.9em 1.7em;
+    background-color: transparent;
+    border-radius: 3em;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    transition: .5s;
+    font-weight: 400;
+    font-size: 17px;
+    border: 1px solid;
+    font-family: inherit;
+    text-transform: uppercase;
+    color: black;
+    z-index: 1;
+}
+
+.button-style::before,
+.button-style::after {
+    content: '';
+    display: block;
+    width: 50px;
+    height: 50px;
+    transform: translate(-50%, -50%);
+    position: absolute;
+    border-radius: 50%;
+    z-index: -1;
+    background-color: #467326;
+    transition: 1s ease;
+}
+
+.button-style::before {
+    top: -1em;
+    left: -1em;
+}
+
+.button-style::after {
+    left: calc(100% + 1em);
+    top: calc(100% + 1em);
+}
+
+.button-style:hover::before,
+.button-style:hover::after {
+    height: 410px;
+    width: 410px;
+}
+
+.button-style:hover {
+    color: white;
+}
+
+.button-style:active {
+    filter: brightness(.8);
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+.custom-text-style {
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+    font-size: clamp(14px, 2vw, 20px);
+    color: white !important;
+    text-transform: uppercase;
+}
+
+.custom-modal-style {
+    border-radius: 30px !important;
+    padding: 10px 20px;
+}
+
+/* From Uiverse.io by gharsh11032000 */
+.animated-button {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 16px 36px;
+    border: 4px solid;
+    border-color: transparent;
+    font-size: 16px;
+    background-color: inherit;
+    border-radius: 100px;
+    font-weight: 600;
+    color: greenyellow;
+    box-shadow: 0 0 0 2px greenyellow;
+    cursor: pointer;
+    overflow: hidden;
+    transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.animated-button svg {
+    position: absolute;
+    width: 24px;
+    fill: greenyellow;
+    z-index: 9;
+    transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.animated-button .arr-1 {
+    right: 16px;
+}
+
+.animated-button .arr-2 {
+    left: -25%;
+}
+
+.animated-button .circle {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 20px;
+    height: 20px;
+    background-color: greenyellow;
+    border-radius: 50%;
+    opacity: 0;
+    transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.animated-button .text {
+    position: relative;
+    z-index: 1;
+    transform: translateX(-12px);
+    transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.animated-button:hover {
+    box-shadow: 0 0 0 12px transparent;
+    color: #212121;
+    border-radius: 12px;
+}
+
+.animated-button:hover .arr-1 {
+    right: -25%;
+}
+
+.animated-button:hover .arr-2 {
+    left: 16px;
+}
+
+.animated-button:hover .text {
+    transform: translateX(12px);
+}
+
+.animated-button:hover svg {
+    fill: #212121;
+}
+
+.animated-button:active {
+    scale: 0.95;
+    box-shadow: 0 0 0 4px greenyellow;
+}
+
+.animated-button:hover .circle {
+    width: 220px;
+    height: 220px;
+    opacity: 1;
+}

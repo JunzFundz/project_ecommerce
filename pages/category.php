@@ -21,7 +21,7 @@ if (isset($_POST['id'])) {
     <div class="row justify-content-center">
         <?php foreach ($items as $rows) : ?>
             <div class="col-lg-3 col-sm-6 ">
-                <a href="item.php?item=<?= htmlspecialchars($rows['i_img']) ?>" style="color: black; text-decoration: none">
+                <a href="" data-bs-toggle="modal" data-bs-target="#login" style="color: black; text-decoration: none">
                     <div class="single-card card-style-one">
                         <div class="card-image">
                             <?php
